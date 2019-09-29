@@ -686,6 +686,33 @@ this.setState({
     }
 
   }
+  
+  actualizarProgramaPresupuesto = () => {
+    console.log(CONFIG+'recaudaciones/alumno/concepto/actualizarIdProgramaPrespuesto/'+this.state.name);
+    fetch(CONFIG+'recaudaciones/alumno/concepto/actualizarIdProgramaPrespuesto/'+this.state.name,
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          method: "PATCH",
+        }
+      ).then((response) => {
+   
+        return response.json();
+
+      })
+        .then((defuncion) => {
+          
+          swal("Alumno Modificado Correctamente","","")
+          this.componentWillMount()
+
+        })
+        .catch(error => {
+          // si hay algún error lo mostramos en consola
+          swal("Oops, Algo salió mal!!", "", "error")
+          console.error(error)
+        });
+	}
 
   render() {
     if (this.state.pagos.length > 0) {
@@ -785,6 +812,9 @@ this.setState({
                     <div>
                       <NumeroRecibo Numeros={this.FiltrarNumeros} />
                     </div>
+                  </div>
+				  <div className="col-xs-4 ">
+                    <button onClick={this.actualizarProgramaPresupuesto}> Cliqueame papu y me actualizare :v</button>
                   </div>
                 </div>
               </div>
