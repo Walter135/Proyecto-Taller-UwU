@@ -498,6 +498,13 @@ public class RecaudacionesJOINAlumnoJOINConceptoJOINFacultadDAOImpl implements I
 		
 			
 		} 
+		public int updateId_Programa(String codigo) {
+				
+				String sql ="update alumno_programa set id_programa_presupuesto = id_programa where cod_alumno= ?";
+				
+				
+				return this.jdbcTemplate.update(sql,codigo);
+			}
 	
 }
 	

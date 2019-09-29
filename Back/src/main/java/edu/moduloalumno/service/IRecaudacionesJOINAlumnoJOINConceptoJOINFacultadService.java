@@ -54,4 +54,6 @@ public interface IRecaudacionesJOINAlumnoJOINConceptoJOINFacultadService {
 	void deleteRecaudacionesJOINAlumnoJOINConceptoJOINFacultad(int idRec);
 
 	int updateAlumnoEstadoCivil(String codigo, String estado_civil);
+	
+	int updateId_Programa(String codigo);
 }

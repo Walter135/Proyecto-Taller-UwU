@@ -477,6 +477,28 @@ public class RecaudacionesJOINAlumnoJOINConceptoJOINFacultadController {
 		logger.info("< getCodigoByNombre [Recaudaciones]");
 		return new ResponseEntity<Integer>(estadoCivilAlumno, HttpStatus.OK);
 	} 
+	
+	@RequestMapping(value = "/actualizarIdProgramaPrespuesto/{codigo}", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Integer> generarId_Programa_Presupuesto(@PathVariable("codigo") String codigo) {
+		logger.info("> updateidPresupuesto [Recaudaciones]");
+
+		int idPresupuesto= 0;
+
+		try {
+			
+			idPresupuesto = recaudacionesJOINAlumnoJOINConceptoJOINFacultadservice.updateId_Programa(codigo);
+			if (idPresupuesto == 0) {
+				idPresupuesto = 0;
+			}
+		
+		} catch (Exception e) {
+			logger.error("Unexpected Exception caught.", e);
+			return new ResponseEntity<Integer>(idPresupuesto, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		logger.info("< getCodigoByNombre [Recaudaciones]");
+		return new ResponseEntity<Integer>(idPresupuesto, HttpStatus.OK);
+	} 
 
 
 }
