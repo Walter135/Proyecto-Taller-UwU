@@ -74,7 +74,8 @@ class App extends React.Component {
       idPrograma:'',
       presupuestoActual:"",//nuevo
       TipoPrograma:"",      //nuevo
-      presupuestosInput:"", //nuevo
+      presupuesto:"", //nuevo
+      presupuestosInput:{value:"-1",label:"Escoja un Programa"}, //nuevo
       valor: true,
       estadoAlumnoInput:{value:"-1",label:"Escoga un nuevo estado"},
       TipoProgramaInput:{value:"-1",label:"Escoja un tipo de Programa"},
@@ -86,7 +87,7 @@ class App extends React.Component {
       {value:"conviviente",label:"Conviviente"},
       {value:"fallecido",label:"Fallecido"}
     ],
-      optionsProgramas:[],
+    optionsProgramas:[],
       optionsTipoPrograma:[{value:"Maestria",label:"Maestria"},
       {value:"Doctorado",label:"Doctorado"},
       {value:"Diplomado",label:"Diplomado"}
@@ -193,7 +194,7 @@ componentDidUpdate(){
      console.log(error)
    })
 
-  }, 1000);
+  }, 3000);
 
 
 
@@ -707,6 +708,7 @@ this.setState({
   }
   
   actualizarProgramaPresupuesto = () => {
+    this.guardarPresupuesto()
     console.log(CONFIG+'recaudaciones/alumno/concepto/actualizarIdProgramaPrespuesto/'+this.state.name);
     fetch(CONFIG+'recaudaciones/alumno/concepto/actualizarIdProgramaPrespuesto/'+this.state.name,
         {
@@ -734,58 +736,64 @@ this.setState({
 	}
 
   handleChangeSelectTipoPrograma = (estado) => {
- 
+    console.log(estado)
     //if(estado!== null){
       this.setState({
         TipoProgramaInput:estado.label,
         TipoPrograma:estado.value
       });
-   // }
+  }
 
+  cambiarOptions = (estado) => {
     switch(this.state.TipoPrograma){
       case "Maestria":
+        console.log(estado.label)
       this.setState({
-        optionsProgramas:[{value: 4, label:"MAESTRIA EN INGENIERIA DE SISTEMAS E INFORMATICA MENCION: INGENIERIA DE SOFTWARE"},
-          {value:5 ,label:"MAESTRIA EN INGENIERIA DE SISTEMAS E INFORMATICA MENCION: GESTION DE TECNOLOGIA DE INFORMACION Y COMUNICACIONES"},
-          {value:6, label:"MAESTRIA PROFESIONAL EN GOBIERNO DE TECNOLOGIAS DE INFORMACION"},
-          {value:7, label:"MAESTRIA EN GESTION DE LA INFORMAION Y DEL CONOCIMIENTO"},
-          {value:9, label:"MAESTRIA EN INGENIERIA DE SISTEMAS E INFORMATICA MENCION: DIRECCION Y GESTION DE TECNOLOGIA DE INFORMACION"},
-          {value:10, label:"MAESTRIA EN INGENIERIA DE SISTEMAS E INFORMATICA MENCION: SISTEMA DE APOYO A LA TOMA DE DECISIONES"}],
-          presupuestosInput:estado.label
+        optionsProgramas:[{value: '4', label:"MAESTRIA EN INGENIERIA DE SISTEMAS E INFORMATICA MENCION: INGENIERIA DE SOFTWARE"},
+          {value:'5' ,label:"MAESTRIA EN INGENIERIA DE SISTEMAS E INFORMATICA MENCION: GESTION DE TECNOLOGIA DE INFORMACION Y COMUNICACIONES"},
+          {value:'6', label:"MAESTRIA PROFESIONAL EN GOBIERNO DE TECNOLOGIAS DE INFORMACION"},
+          {value:'7', label:"MAESTRIA EN GESTION DE LA INFORMAION Y DEL CONOCIMIENTO"},
+          {value:'9', label:"MAESTRIA EN INGENIERIA DE SISTEMAS E INFORMATICA MENCION: DIRECCION Y GESTION DE TECNOLOGIA DE INFORMACION"},
+          {value:'10', label:"MAESTRIA EN INGENIERIA DE SISTEMAS E INFORMATICA MENCION: SISTEMA DE APOYO A LA TOMA DE DECISIONES"}],
+          
       });  
       
         break;
 
       case "Doctorado":
           this.setState({
-            optionsProgramas:[{value: 8, label:"DOCTORADO EN INGENIERIA DE SISTEMAS DE INFORMATICA"}],
-            presupuestosInput:estado.label
+            optionsProgramas:[{value: '8', label:"DOCTORADO EN INGENIERIA DE SISTEMAS DE INFORMATICA"}],
           }); 
         break;
 
       case "Diplomado":
           this.setState({
-            optionsProgramas:[{value: 1, label:"DIPLOMATURA: GESTION PUBLICA Y GOBIERNO ELECTRONICO"},
-            {value:2, label:"DIPLOMATURA: ESPECIALIZACION EN AUDITORIA Y SEGURIDAD DE TECNOLOGIA DE INFORMACION"},
-            {value:3, label:"DIPLOMATURA: GERENCIA DE PROYECTOS DE TECNOLOGIA DE INFORMACION"}],
-            presupuestosInput:estado.label
+            optionsProgramas:[{value: '1', label:"DIPLOMATURA: GESTION PUBLICA Y GOBIERNO ELECTRONICO"},
+            {value:'2', label:"DIPLOMATURA: ESPECIALIZACION EN AUDITORIA Y SEGURIDAD DE TECNOLOGIA DE INFORMACION"},
+            {value:'3', label:"DIPLOMATURA: GERENCIA DE PROYECTOS DE TECNOLOGIA DE INFORMACION"}],
           }); 
         break;
     }
   }
 
  handleChangeSelectPrograma = (estado) =>{
-    //if(estado!== null){
+   console.log(estado)
       this.setState({
-        presupuestosInput:estado.label
-        
+        presupuestosInput : {value: estado.value,label: estado.label}
       });
-   // }
 
  }
 
- guardarPresupuesto = (e) => {
-   e.preventDefault();
+ sleep=(milliseconds) =>{
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+   if ((new Date().getTime() - start) > milliseconds) {
+    break;
+   }
+  }
+ }
+
+ guardarPresupuesto = () => {
    console.log("Ya me guarde :v")
    console.log(this.state.TipoPrograma)
 
@@ -848,20 +856,20 @@ this.setState({
                               onChange={this.handleChangeSelectTipoPrograma}
                               options={this.state.optionsTipoPrograma}
                             />
-                        <Button color="green" className="mb-3" onClick={this.handleChangeSelectTipoPrograma}>Filtrar</Button>
+                        <Button color="green" className="mb-3"  onClick={this.cambiarOptions}>Filtrar</Button>
 
-                        <Select className="mb-5"
+                        <Select className="mb-2"
                               name="presupuestosInput"
                               id="presupuestosInput"
                               placeholder="Seleccione un programa"
-                              onChange={this.handleChangeSelectTipoPrograma}
                               value={this.state.presupuestosInput}
+                              onChange={this.handleChangeSelectPrograma}
                               options={this.state.optionsProgramas}
                               
                         />
                       </ModalBody>
                       <ModalFooter>
-                        <Button color="green" onClick={this.guardarPresupuesto}>Asignar Presupuesto</Button>
+                        <Button color="green" onClick={this.actualizarProgramaPresupuesto}>Asignar Presupuesto</Button>
                         <Button color="secondary" onClick={this.closeModal}>Salir</Button>
                     </ModalFooter>
                 </div>
