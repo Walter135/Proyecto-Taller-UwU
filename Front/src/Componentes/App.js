@@ -69,9 +69,15 @@ class App extends React.Component {
       tipos:[],
       tiposv1:[],
       defuncion: 1,
+      NroModal: 0,
       estadoAlumno:"",
+      idPrograma:'',
+      presupuestoActual:"",//nuevo
+      TipoPrograma:"",      //nuevo
+      presupuestosInput:"", //nuevo
       valor: true,
       estadoAlumnoInput:{value:"-1",label:"Escoga un nuevo estado"},
+      TipoProgramaInput:{value:"-1",label:"Escoja un tipo de Programa"},
       optionsEstadoAlumno:[{value:"casado",label:"Casado"},
       {value:"soltero",label:"Soltero"},
       {value:"divorciado",label:"Divorciado"},
@@ -79,6 +85,11 @@ class App extends React.Component {
       {value:"separado",label:"Separado"},
       {value:"conviviente",label:"Conviviente"},
       {value:"fallecido",label:"Fallecido"}
+    ],
+      optionsProgramas:[],
+      optionsTipoPrograma:[{value:"Maestria",label:"Maestria"},
+      {value:"Doctorado",label:"Doctorado"},
+      {value:"Diplomado",label:"Diplomado"}
     ],
       showModalConfiguracion:false,
     }
@@ -110,10 +121,6 @@ class App extends React.Component {
 componentDidUpdate(){
     if(this.state.estado!=0){
       var checks=document.getElementsByClassName("checkbox1");
-      /*console.log(checks[0].id);
-      console.log(this.state.estado);
-      checks[0].checked=true;*/
-
       for(let i=0;i<checks.length;i++){
          var id=checks[i].id;
          for(let j=0;j<this.state.pagocero.length;j++){
@@ -121,10 +128,8 @@ componentDidUpdate(){
              if(this.state.pagocero[j].check==true){
                if(id==codigo){
                  checks[i].checked=true;
-
                }
              }
-
         }
 
         }
@@ -136,7 +141,6 @@ componentDidUpdate(){
 
   colocar=()=>{
     var check=document.getElementById("observacion").checked;
-    //console.log(check);
     if(check){
       this.setState({
 
@@ -153,7 +157,6 @@ componentDidUpdate(){
 
   validado=()=>{
     var check=document.getElementById("validar").checked;
-    //console.log(check);
     if(check){
       this.setState({
         validado:true
@@ -168,6 +171,37 @@ componentDidUpdate(){
 
 
   componentWillMount() {
+
+
+
+
+
+      setTimeout(() => {
+        
+
+    fetch(CONFIG+'alumno/alumnoprograma/programa/'+this.state.idPrograma)
+   .then((response)=>{
+     return response.json();
+   })
+   .then((programa)=>{
+     console.log(programa)
+     this.setState({
+       presupuestoActual : programa.nomPrograma
+     })
+   })
+   .catch(error=>{
+     console.log(error)
+   })
+
+  }, 1000);
+
+
+
+
+
+
+
+
     this.pageOfItems = this.pagocero;
     var checkbox_selec=[];
     var nombres = this.state.name;
@@ -331,24 +365,16 @@ this.setState({
 //------
 
 
-
-
     var separador = " "; // un espacio en blanco
     var arregloDeSubCadenas = nombres.split(separador);
-    // console.log("arreglo de subcadenas");
-    // console.log(arregloDeSubCadenas);
     var arreglo = [];
     for (let i = 0; i< arregloDeSubCadenas.length; i++) {
       if(arregloDeSubCadenas[i]!==''){
          arreglo.push(arregloDeSubCadenas[i])
       }
     }
-    // console.log("arreglo sin espacios en blanco");
-    // console.log(arreglo);
 
     var nombrenuevo = arreglo.join(" & ");
-    // console.log("arreglo con join")
-    // console.log(nombrenuevo);
     var nombreAlumno = arreglo.join(" ");
 //ANTERIOR LINK
 //https://modulo-alumno-zuul.herokuapp.com/modulo-alumno-jdbc-client/recaudaciones/alumno/concepto/listar/
@@ -436,21 +462,19 @@ this.setState({
         });
 
 
-
-
-
-
       fetch(CONFIG+'recaudaciones/alumno/concepto/listar_cod/' + nombrenuevo)
       .then((response) => {
         return response.json()
       })
       .then((pagos) => {
 
-
-
          console.log("pagos de la consulta de acuerdo el nombre ingresado");
 
          console.log(pagos);
+         console.log(pagos[0].idPrograma)
+         this.setState({
+           idPrograma : pagos[0].idPrograma
+         })
          console.log("UN IDREC");
         // console.log(pagos[1].idRec);
         var auxPagos = pagos;
@@ -465,8 +489,6 @@ this.setState({
         },
 
         );
-        // console.log("hola");
-     //   this.arreglosReporte(this.state.lista_aux);
       var total=this.state.pagocero;
 
      this.state.pagocero.map((pago)=>{
@@ -496,11 +518,6 @@ this.setState({
                    this.reporte_credito(comprobacion,nombrenuevo,auxPagos);
                }
           }
-/*
-        console.log("costos");
-        console.log(costos);
-        this.setState({costosP: costos})
-*/
       })
       .catch(error=>{
           console.error(error)
@@ -663,9 +680,11 @@ this.setState({
     }
   }
 
-  editarConfiguracion = () => {
+  editarConfiguracion = (e) => {
+    console.log(e.target.value);
     this.setState({
-      showModalConfiguracion:true
+      showModalConfiguracion:true,
+      NroModal:e.target.value
     });
   }
 
@@ -714,41 +733,145 @@ this.setState({
         });
 	}
 
+  handleChangeSelectTipoPrograma = (estado) => {
+ 
+    //if(estado!== null){
+      this.setState({
+        TipoProgramaInput:estado.label,
+        TipoPrograma:estado.value
+      });
+   // }
+
+    switch(this.state.TipoPrograma){
+      case "Maestria":
+      this.setState({
+        optionsProgramas:[{value: 4, label:"MAESTRIA EN INGENIERIA DE SISTEMAS E INFORMATICA MENCION: INGENIERIA DE SOFTWARE"},
+          {value:5 ,label:"MAESTRIA EN INGENIERIA DE SISTEMAS E INFORMATICA MENCION: GESTION DE TECNOLOGIA DE INFORMACION Y COMUNICACIONES"},
+          {value:6, label:"MAESTRIA PROFESIONAL EN GOBIERNO DE TECNOLOGIAS DE INFORMACION"},
+          {value:7, label:"MAESTRIA EN GESTION DE LA INFORMAION Y DEL CONOCIMIENTO"},
+          {value:9, label:"MAESTRIA EN INGENIERIA DE SISTEMAS E INFORMATICA MENCION: DIRECCION Y GESTION DE TECNOLOGIA DE INFORMACION"},
+          {value:10, label:"MAESTRIA EN INGENIERIA DE SISTEMAS E INFORMATICA MENCION: SISTEMA DE APOYO A LA TOMA DE DECISIONES"}],
+          presupuestosInput:estado.label
+      });  
+      
+        break;
+
+      case "Doctorado":
+          this.setState({
+            optionsProgramas:[{value: 8, label:"DOCTORADO EN INGENIERIA DE SISTEMAS DE INFORMATICA"}],
+            presupuestosInput:estado.label
+          }); 
+        break;
+
+      case "Diplomado":
+          this.setState({
+            optionsProgramas:[{value: 1, label:"DIPLOMATURA: GESTION PUBLICA Y GOBIERNO ELECTRONICO"},
+            {value:2, label:"DIPLOMATURA: ESPECIALIZACION EN AUDITORIA Y SEGURIDAD DE TECNOLOGIA DE INFORMACION"},
+            {value:3, label:"DIPLOMATURA: GERENCIA DE PROYECTOS DE TECNOLOGIA DE INFORMACION"}],
+            presupuestosInput:estado.label
+          }); 
+        break;
+    }
+  }
+
+ handleChangeSelectPrograma = (estado) =>{
+    //if(estado!== null){
+      this.setState({
+        presupuestosInput:estado.label
+        
+      });
+   // }
+
+ }
+
+ guardarPresupuesto = (e) => {
+   e.preventDefault();
+   console.log("Ya me guarde :v")
+   console.log(this.state.TipoPrograma)
+
+
+   fetch(CONFIG+'alumno/alumnoprograma/programa/'+this.state.idPrograma)
+   .then((response)=>{
+     return response.json();
+   })
+   .then((programa)=>{
+     console.log(programa)
+     this.setState({
+       presupuestoActual : programa.nomPrograma
+     })
+   })
+   .catch(error=>{
+     console.log(error)
+   })
+ }
+
   render() {
     if (this.state.pagos.length > 0) {
       return (
 
         <div id="main" className="">
 
-            <Modal isOpen={this.state.showModalConfiguracion} toggle={this.closeModal}  
+            <Modal isOpen={this.state.showModalConfiguracion && this.state.NroModal==1}  toggle={this.closeModal}  
                   aria-labelledby="contained-modal-title-vcenter">
                   <div>
-                  <ModalHeader toggle={this.closeModal}>Configuración de Estudiante</ModalHeader>
-                    <ModalBody>
-                      <h6 align="left" className="Alumno"><b>Estado de alumno:</b></h6>
-                      <h6  align="center"  className="negro">{this.state.estadoAlumno}</h6> 
-                      <Select
-                            name="estadoAlumnoInput"
-                            id="estadoAlumnoInput"
-                            placeholder="Seleccione un estado"
-                            value={this.state.estadoAlumnoInput}
-                            onChange={this.handleChangeSelectEstadoAlumno}
-                            options={this.state.optionsEstadoAlumno}
-                          />
-                    </ModalBody>
-                    <ModalFooter>
-                      <Button color="green" onClick={this.guardarCambios}>Guardar</Button><p>         </p>
-                      <Button color="secondary" onClick={this.closeModal}>Salir</Button>
-                  </ModalFooter>
+                    <ModalHeader toggle={this.closeModal}>Configuración de Estudiante</ModalHeader>
+                      <ModalBody>
+                        <h6 align="left" className="Alumno"><b>Estado de alumno:</b></h6>
+                        <h6  align="center"  className="negro">{this.state.estadoAlumno}</h6> 
+                        <Select
+                              name="estadoAlumnoInput"
+                              id="estadoAlumnoInput"
+                              placeholder="Seleccione un estado"
+                              value={this.state.estadoAlumnoInput}
+                              onChange={this.handleChangeSelectEstadoAlumno}
+                              options={this.state.optionsEstadoAlumno}
+                            />
+                      </ModalBody>
+                      <ModalFooter>
+                        <Button color="green" onClick={this.guardarCambios}>Guardar</Button><p>         </p>
+                        <Button color="secondary" onClick={this.closeModal}>Salir</Button>
+                    </ModalFooter>
                 </div>      
-              </Modal>
+            </Modal>
+            <Modal isOpen={this.state.showModalConfiguracion && this.state.NroModal==2} toggle={this.closeModal}>
+                <div>
+                    <ModalHeader toggle={this.closeModal}>Asignacion de Presupuesto</ModalHeader>
+                      <ModalBody>
+                        <h6 align="left" className="Alumno"><b>Presupuesto Actual:</b></h6>
+                        <h6 align="left"  className="negro">{this.state.presupuestoActual}</h6>
+                        <Button color="danger"  className="float-right mt-1 mb-2 ">Remover Asignacion</Button> 
+                        <Select className="mb-2"
+                              name="TipoProgramaInput"
+                              id="TipoProgramaInput"
+                              placeholder="Seleccione un tipo de programa"
+                              value={this.state.TipoProgramaInput}
+                              onChange={this.handleChangeSelectTipoPrograma}
+                              options={this.state.optionsTipoPrograma}
+                            />
+                        <Button color="green" className="mb-3" onClick={this.handleChangeSelectTipoPrograma}>Filtrar</Button>
+
+                        <Select className="mb-5"
+                              name="presupuestosInput"
+                              id="presupuestosInput"
+                              placeholder="Seleccione un programa"
+                              onChange={this.handleChangeSelectTipoPrograma}
+                              value={this.state.presupuestosInput}
+                              options={this.state.optionsProgramas}
+                              
+                        />
+                      </ModalBody>
+                      <ModalFooter>
+                        <Button color="green" onClick={this.guardarPresupuesto}>Asignar Presupuesto</Button>
+                        <Button color="secondary" onClick={this.closeModal}>Salir</Button>
+                    </ModalFooter>
+                </div>
+
+            </Modal>
         {this.state.aparecer?(
         <div>
           <h3>Estado de pagos por alumno
           <ul id="nav-mobile" className=" row right  hide-on-med-and-down">
-              {/*<li ><a className="seleccionar col" onClick={this.seguimientoEgresados} >Seguimiento de Egresados<i className="material-icons right">edit</i></a></li>
-              <li ><a className="seleccionar col" onClick={this.enviarFormulario} >Revisar Beneficio<i className="material-icons right">edit</i></a></li>
-        <li ><a className="seleccionar col" onClick={this.Regresar} >Regresar<i className="material-icons right">reply</i></a></li>*/}
+
               <li ><a className="seleccionar col" onClick={this.openNav} >Ver todo<i className="material-icons right">apps</i></a></li>
           </ul>
           </h3>
@@ -766,13 +889,13 @@ this.setState({
                             <h6 align="center" className="negro">{this.state.pagos[0].apeNom}</h6>
                             <h6 align="center" className="Alumno"><b>Estado del alumno:</b></h6>
                             <h6 align="center" className="negro">{this.state.estadoAlumno}</h6>
-                          {/*<h6 align="center" className="Alumno"><b>Programa:</b></h6>
-                          <h6 align="center" className="negro">{this.state.pagos[0].sigla_programa}</h6>*/}
+
                             <div  className=" center espacio2">
-                              <button  type="submit"  onClick={this.editarConfiguracion}  className="waves-effect waves-light btn-small "> Editar estado 
+                              <button  type="submit"  onClick={e => this.editarConfiguracion(e,"value")}  className="waves-effect waves-light btn-small" value={1}> Editar estado 
                                   <i className="large material-icons left">edit</i>
                               </button>
-                          </div>
+                              <button type="submit"  onClick={e => this.editarConfiguracion(e,"value")} className="waves-effect waves-light btn-small mt-4" value={2}>Presupuestos</button>
+                           </div>
                           </div>
                         </div>
               </div>
@@ -780,9 +903,7 @@ this.setState({
                 </div>
             
               <div className=" col-xs-8">
-              {/* <div className="center-xs-12 margen_top">
-                <h5 className="text-align center">Filtros</h5>
-              </div> */}
+
                 <div className="SplitPane row">
                   <div className="inline col-xs-3 ">
                     <div>
@@ -814,15 +935,13 @@ this.setState({
                     </div>
                   </div>
 				  <div className="col-xs-4 ">
-                    <button onClick={this.actualizarProgramaPresupuesto}> Cliqueame papu y me actualizare :v</button>
+                    <button onClick={this.actualizarProgramaPresupuesto}> Actualizar Presupuesto</button>
                   </div>
                 </div>
               </div>
 
           </div>
-          {/* <div className="SplitPane row center-xs">
-               <button onClick={this.Filtrar}  className="waves-effect waves-light btn-large newbotonFiltrar" type="submit">Filtrar<i className="large material-icons left">filter_list</i></button>
-          </div> */}
+
           <hr />
 
           <div className="margen2">
@@ -861,28 +980,7 @@ this.setState({
                   <ImporteDolar importe={this.CalcularImporteDolar()} />
                 </div>
                 <div className="col-md-3">
-                {/* <form action="#">
-                    <label className="row  ">
 
-                      <input
-                        onClick="{this.colocar}"
-                        className="align-self-center"
-                        id="xd"
-                        type="checkbox" />
-                        <span> observacion</span>
-
-
-
-
-
-                        </label>
-
-                  </form> */}
-
-                  <div>
-                  {/* <button  onClick={this.enviar2} listado={this.state.pagocero} className="waves-effect waves-light btn-large botonazul2">Editar<i className="large material-icons left">border_color</i></button>     */}
-
-                  </div>
                 </div>
                 <div className="col-md-8 "></div>
                 <div className="col-md-1 ">
@@ -916,8 +1014,6 @@ this.setState({
                   <Imprimir2 onClick={this.enviar}  validado = {this.state.validado} seleccionado={this.state.seleccionado} listado={this.state.pagocero} conceptos={this.state.conceptos} alumno={this.state.alumno} costos={this.state.costosP} datos={this.state.datosformulario}/>
                 </div>
 
-
-
               </div>
             </div>
           </div>
@@ -938,26 +1034,6 @@ this.setState({
               <FormularioIntermio codigo={this.state.name} idprograma={this.state.pagos[0].idPrograma}/>
             </div>
 
-
-          // <div>
-          //     <h3>Editable
-          // <ul id="nav-mobile" className="right  hide-on-med-and-down"></ul>
-          // </h3>
-          // <hr/>
-
-          // <div className="SplitPane row center-xs">
-          //   <div className="  center-xs-12">
-          //     <table className=" total table ">
-          //       <ComponenteEditable  listado={this.state.pagocero} conceptos={this.state.conceptos} alumno={this.state.alumno}/>
-          //     </table>
-          //       <div className = "row">
-          //       <div className="col-md-6">
-          //             <button  onClick={this.enviar2}  className="waves-effect waves-light btn-large botonazul2" type="submit">Regresar<i className="large material-icons left">arrow_back</i></button>
-          //             </div>
-          //         </div>
-          //       </div>
-          //     </div>
-          // </div>
           )
 
         }
@@ -998,24 +1074,16 @@ Filtrar=(e)=>{
 
   var separadorFiltro = " "; // un espacio en blanco
   var arregloDeSubCadenasFiltro = nombreFiltro.split(separadorFiltro);
-  /*
-  console.log("arreglo de subcadenas");
-  console.log(arregloDeSubCadenas);*/
+
   var arregloFiltro = [];
   for (let i = 0; i< arregloDeSubCadenasFiltro.length; i++) {
     if(arregloDeSubCadenasFiltro[i]!==''){
        arregloFiltro.push(arregloDeSubCadenasFiltro[i])
     }
   }
-  /*
-  console.log("arreglo sin espacios en blanco");
-  console.log(arreglo);
-*/
+
   var nombrenuevoFiltro = arregloFiltro.join(" & ");
-  /* console.log("lista de numeros pasados");
-   console.log(this.state.filtroNumeros);
-   console.log("lista de CONCEPTOS PASADOSs");
-   console.log(concep); */
+ 
   //ANTERIOR LINK:
   //http://modulo-alumno-zuul.herokuapp.com/modulo-alumno-jdbc-client/recaudaciones/alumno/concepto/listar/filtrar
   console.log("link filtros")
@@ -1070,13 +1138,7 @@ Filtrar=(e)=>{
   console.error(error)
   });
 
-
-
 }
-
-
-
-
 
   SeleccionFechaDel(Fecha) {
 
@@ -1107,7 +1169,6 @@ Filtrar=(e)=>{
     }
 
     //console.log("Seleccion conceptos: " + checkbox_seleccionados);
-
     return checkbox_seleccionados;
 
   }
@@ -1180,7 +1241,6 @@ show_or_hide() {
     document.getElementById("ubicacion" + i).style.display = statusInfo;  
     document.getElementById("banco" + i).style.display = statusInfo;  
   }
-
 }
 
 seguimientoEgresados=(e)=>{
@@ -1439,15 +1499,8 @@ FiltrarFecha(Fechas) {
             pagocero: filtrofinal
           })
         }
-/*
-
-        console.log(arrayfiltrado);
-        console.log(this.state.pagocero);*/
-
       }
     }
-
-
 
   }
 }
@@ -1575,4 +1628,3 @@ Paginacion.propTypes = propTypes;
 Paginacion.defaultProps = defaultProps;
 
 export default App;
-
