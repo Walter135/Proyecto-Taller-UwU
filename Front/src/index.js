@@ -14,6 +14,7 @@ import VistaIntermedia from './Componentes/seleccion-intermedia';
 import ComponenteEditable from './Componentes/ComponenteEditable';
 import Formulario from './Componentes/formulario';
 import VistaSeguimientoEgresado from './Componentes/VistaSeguimientoEgresado';
+import AsignarPresupuesto from './Componentes/AsignarPresupuesto';
 
 class Index extends React.Component {
     render() {
@@ -34,6 +35,9 @@ class Index extends React.Component {
             <Route path="/formulario/:codigo" component={Formulario}></Route>
             
             <Route path="/:name/vista/egresado" component={VistaSeguimientoEgresado}></Route>
+
+            <Route path="/vista/presupuesto" component={AsignarPresupuesto}></Route>
+
           </Router>
           )
       }

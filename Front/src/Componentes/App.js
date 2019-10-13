@@ -73,12 +73,11 @@ class App extends React.Component {
       estadoAlumno:"",
       idPrograma:'',
       presupuestoActual:"",//nuevo
-      TipoPrograma:"",      //nuevo
       presupuesto:"", //nuevo
-      presupuestosInput:{value:"-1",label:"Escoja un Programa"}, //nuevo
+      mostrar:true,
       valor: true,
       estadoAlumnoInput:{value:"-1",label:"Escoga un nuevo estado"},
-      TipoProgramaInput:{value:"-1",label:"Escoja un tipo de Programa"},
+      TipopresupuestoInput:{value:"-1",label:"Escoja un presupuesto"},
       optionsEstadoAlumno:[{value:"casado",label:"Casado"},
       {value:"soltero",label:"Soltero"},
       {value:"divorciado",label:"Divorciado"},
@@ -88,11 +87,7 @@ class App extends React.Component {
       {value:"fallecido",label:"Fallecido"}
     ],
     optionsProgramas:[],
-      optionsTipoPrograma:[{value:"Maestria",label:"Maestria"},
-      {value:"Doctorado",label:"Doctorado"},
-      {value:"Diplomado",label:"Diplomado"}
-    ],
-      showModalConfiguracion:false,
+    showModalConfiguracion:false,
     }
     this.clase='';
     this.alumno = '';
@@ -170,6 +165,25 @@ componentDidUpdate(){
     }
   }
 
+  //nuevo
+  mostrarOcultar=()=>{
+    
+    if(this.state.mostrar){    
+      document.getElementById('mostrar-ocultar').style.display = 'block';
+      this.setState({
+        mostrar:false
+      })
+    }
+    else{
+      document.getElementById('mostrar-ocultar').style.display = 'none';
+      this.setState({
+        mostrar:true
+      })
+
+    }
+  }
+
+
 
   componentWillMount() {
 
@@ -195,9 +209,6 @@ componentDidUpdate(){
    })
 
   }, 3000);
-
-
-
 
 
 
@@ -395,9 +406,6 @@ this.setState({
       .then((pagos) => {
 
 
-       /*
-         console.log("pagos de la consulta de acuerdo el nombre ingresado");
-        console.log(pagos); */
         var auxPagos = pagos;
 
       var alumnoDetalle = {
@@ -501,7 +509,6 @@ this.setState({
       .then((response)=>{
           return response.json()
       }).then((comprobacion)=>{//costos
-          console.log("wea");
           console.log(comprobacion);
           if(comprobacion ==  1 ){
               //console.log("toffe");
@@ -744,37 +751,7 @@ this.setState({
       });
   }
 
-  cambiarOptions = (estado) => {
-    switch(this.state.TipoPrograma){
-      case "Maestria":
-        console.log(estado.label)
-      this.setState({
-        optionsProgramas:[{value: '4', label:"MAESTRIA EN INGENIERIA DE SISTEMAS E INFORMATICA MENCION: INGENIERIA DE SOFTWARE"},
-          {value:'5' ,label:"MAESTRIA EN INGENIERIA DE SISTEMAS E INFORMATICA MENCION: GESTION DE TECNOLOGIA DE INFORMACION Y COMUNICACIONES"},
-          {value:'6', label:"MAESTRIA PROFESIONAL EN GOBIERNO DE TECNOLOGIAS DE INFORMACION"},
-          {value:'7', label:"MAESTRIA EN GESTION DE LA INFORMAION Y DEL CONOCIMIENTO"},
-          {value:'9', label:"MAESTRIA EN INGENIERIA DE SISTEMAS E INFORMATICA MENCION: DIRECCION Y GESTION DE TECNOLOGIA DE INFORMACION"},
-          {value:'10', label:"MAESTRIA EN INGENIERIA DE SISTEMAS E INFORMATICA MENCION: SISTEMA DE APOYO A LA TOMA DE DECISIONES"}],
-          
-      });  
-      
-        break;
-
-      case "Doctorado":
-          this.setState({
-            optionsProgramas:[{value: '8', label:"DOCTORADO EN INGENIERIA DE SISTEMAS DE INFORMATICA"}],
-          }); 
-        break;
-
-      case "Diplomado":
-          this.setState({
-            optionsProgramas:[{value: '1', label:"DIPLOMATURA: GESTION PUBLICA Y GOBIERNO ELECTRONICO"},
-            {value:'2', label:"DIPLOMATURA: ESPECIALIZACION EN AUDITORIA Y SEGURIDAD DE TECNOLOGIA DE INFORMACION"},
-            {value:'3', label:"DIPLOMATURA: GERENCIA DE PROYECTOS DE TECNOLOGIA DE INFORMACION"}],
-          }); 
-        break;
-    }
-  }
+  
 
  handleChangeSelectPrograma = (estado) =>{
    console.log(estado)
@@ -819,7 +796,7 @@ this.setState({
 
         <div id="main" className="">
 
-            <Modal isOpen={this.state.showModalConfiguracion && this.state.NroModal==1}  toggle={this.closeModal}  
+            <Modal isOpen={this.state.showModalConfiguracion}  toggle={this.closeModal}  
                   aria-labelledby="contained-modal-title-vcenter">
                   <div>
                     <ModalHeader toggle={this.closeModal}>Configuración de Estudiante</ModalHeader>
@@ -841,40 +818,7 @@ this.setState({
                     </ModalFooter>
                 </div>      
             </Modal>
-            <Modal isOpen={this.state.showModalConfiguracion && this.state.NroModal==2} toggle={this.closeModal}>
-                <div>
-                    <ModalHeader toggle={this.closeModal}>Asignacion de Presupuesto</ModalHeader>
-                      <ModalBody>
-                        <h6 align="left" className="Alumno"><b>Presupuesto Actual:</b></h6>
-                        <h6 align="left"  className="negro">{this.state.presupuestoActual}</h6>
-                        <Button color="danger"  className="float-right mt-1 mb-2 ">Remover Asignacion</Button> 
-                        <Select className="mb-2"
-                              name="TipoProgramaInput"
-                              id="TipoProgramaInput"
-                              placeholder="Seleccione un tipo de programa"
-                              value={this.state.TipoProgramaInput}
-                              onChange={this.handleChangeSelectTipoPrograma}
-                              options={this.state.optionsTipoPrograma}
-                            />
-                        <Button color="green" className="mb-3"  onClick={this.cambiarOptions}>Filtrar</Button>
-
-                        <Select className="mb-2"
-                              name="presupuestosInput"
-                              id="presupuestosInput"
-                              placeholder="Seleccione un programa"
-                              value={this.state.presupuestosInput}
-                              onChange={this.handleChangeSelectPrograma}
-                              options={this.state.optionsProgramas}
-                              
-                        />
-                      </ModalBody>
-                      <ModalFooter>
-                        <Button color="green" onClick={this.actualizarProgramaPresupuesto}>Asignar Presupuesto</Button>
-                        <Button color="secondary" onClick={this.closeModal}>Salir</Button>
-                    </ModalFooter>
-                </div>
-
-            </Modal>
+            
         {this.state.aparecer?(
         <div>
           <h3>Estado de pagos por alumno
@@ -899,10 +843,10 @@ this.setState({
                             <h6 align="center" className="negro">{this.state.estadoAlumno}</h6>
 
                             <div  className=" center espacio2">
-                              <button  type="submit"  onClick={e => this.editarConfiguracion(e,"value")}  className="waves-effect waves-light btn-small" value={1}> Editar estado 
+                              <button  type="submit"  onClick={e => this.editarConfiguracion(e,"value")}  className="waves-effect waves-light btn-small"> Editar estado 
                                   <i className="large material-icons left">edit</i>
                               </button>
-                              <button type="submit"  onClick={e => this.editarConfiguracion(e,"value")} className="waves-effect waves-light btn-small mt-4" value={2}>Presupuestos</button>
+                              
                            </div>
                           </div>
                         </div>
@@ -951,6 +895,70 @@ this.setState({
           </div>
 
           <hr />
+          <br/>
+          <div>
+            <div>
+              <h5 className="inline-block"><b>PRESUPUESTOS</b></h5>
+              <button onClick={this.mostrarOcultar}  className="waves-effect waves-light btn-small inline-block ml-3" type="submit">Mostrar/Ocultar</button>      
+            </div>
+            <div id="mostrar-ocultar">
+              <div className="row mt-3" >
+
+                <div className="col-xs-2"> 
+                  <Select className="ml-2 col-xs-12 " 
+                      name="TipoProgramaInput"
+                      id="TipoProgramaInput"
+                      placeholder="Seleccione un presupuesto"
+                      value={this.state.TipopresupuestoInput}
+                      onChange={this.handleChangeSelectTipoPrograma}
+                      options={this.state.optionsTipoPrograma}
+                  />
+                </div>  
+                <button onClick={this.Filtrar}  className="waves-effect waves-light btn-small inline-block ml-3 col-xs-1" type="submit" >Ver detalle</button>
+    
+                <div className=" inline-block ml-3 col-xs-4">
+                  <table >                   
+                    <tr>
+                      <td></td>
+                      <td><b>COSTO REAL</b></td>
+                      <td><b>COSTO FINAL</b></td>
+                    </tr>
+                    <tr>
+                      <td><b>Matricula UPG</b></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td><b>Matricula EPG</b></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td><b>Derecho de Enseñanza</b></td>
+                      <td>s/ 14,509.44</td>
+                      <td>s/ 14,509.44</td>
+                    </tr>
+                    <tr>
+                      <td><b>Total</b></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td><b>Valor por credito</b></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                  </table>
+                </div>
+                <div className="inline-block col-xs-2">
+                <button   className="waves-effect waves-light btn-small" type="submit" >Asignar Presupuesto<i className="large material-icons left">check</i></button>
+                </div>
+
+              </div>
+
+            </div>           
+          </div>
+          <hr />
 
           <div className="margen2">
             <button onClick={this.seleccionar} className="waves-effect waves-light btn-small newbotonSeleccionar start">
@@ -970,6 +978,7 @@ this.setState({
                 <a href="javascript:void(0)" class="closebtn" onClick={this.closeNav}>×</a>
                 <a href="#" onClick={this.seguimientoEgresados}>Seguimiento de Egresados</a>
                 <a href="#" onClick={this.enviarFormulario}>Revisar Beneficio</a>
+                <a href="#" onClick={this.AsignarPresupuesto}>Asignar Presupuesto</a>   {/*nuevo*/}
                 <a href="#" onClick={this.Regresar}>Regresar</a>
               </div>
               {/*Fin*/}
@@ -981,7 +990,6 @@ this.setState({
               <div className="row">
                 <div className="col-md-7">
                   <Importe importe={this.CalcularImporte()} />
-                  {/* <ImporteDolar importe={this.CalcularImporteDolar()} /> */}
                 </div>
                 <div className="col-md-7">
                 
@@ -1280,6 +1288,14 @@ enviarFormulario=(e)=>{
   }
 
 }
+
+//NUEVOOOOOOOOO
+AsignarPresupuesto=(e)=>{
+  browserHistory.push(this.state.name+'/vista/presupuesto');
+  e.preventDefault();
+
+}
+
 reporte_credito(idx,nombrenuevo,auxPagos){
      fetch(CONFIG+'beneficio/breporte_cr/' + nombrenuevo+'/'+auxPagos[0].idPrograma+"/"+idx)
      .then((response)=>{

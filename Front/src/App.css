@@ -32,6 +32,11 @@
 .espacio{
   padding-left: 40px;
 }
+
+.inline-block{
+  display:inline-block;
+}
+
 .block{
   
   display: block;
@@ -179,15 +184,18 @@ label {
   
  } 
 
+ /*nuevoo*/
+ #mostrar-ocultar{
+   display: none;
+ }
+
  .container{
    margin-top: 20px;
   background:#eceaea;
   border-radius: 15px;
   padding: 30px;
   width: 500px;
-  
-  
-   
+ 
  }
  .sombra{
    background: #e8e5e5;
@@ -198,8 +206,7 @@ label {
  textarea{
    padding: 10px;
    border-radius: 8px;
-   
-   
+
  }
  
 
@@ -394,7 +401,36 @@ h6 {
   display: block;
   border-radius: 7px;
 }
+/*nuevo*/
+.cuadro-borde{
+  border: 1px solid #000000;
+  
 
+}
+/*nuevo*/
+.cuadro{
+  background-color: #f2f2f2;
+  margin-top: 20px;
+  margin-left: 115px;
+  margin-right: 115px;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+/*nuevo*/
+.minicuadro{
+  margin-top: 20px;
+  margin-left: 15px;
+  margin-right: 15px;
+  padding: 20px;
+}
+
+/*nuevo*/
+.subtitulo{
+  font-size: 25px;
+  padding: 15px;
+  color: #215c75;
+  text-transform: uppercase;
+}
 
 .numero {
   margin: 0 0 0 0;
