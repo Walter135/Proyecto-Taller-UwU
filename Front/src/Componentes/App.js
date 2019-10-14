@@ -925,28 +925,28 @@ this.setState({
                     </tr>
                     <tr>
                       <td><b>Matricula UPG</b></td>
-                      <td></td>
-                      <td></td>
+                      <td>{this.state.costosP.upg}</td>
+                      <td>{this.state.costosP.d_upg}</td>
                     </tr>
                     <tr>
                       <td><b>Matricula EPG</b></td>
-                      <td></td>
-                      <td></td>
+                      <td>{this.state.costosP.epg}</td>
+                      <td>{this.state.costosP.d_epg}</td>
                     </tr>
                     <tr>
                       <td><b>Derecho de Enseñanza</b></td>
-                      <td>s/ 14,509.44</td>
-                      <td>s/ 14,509.44</td>
+                      <td>{this.state.costosP.total}</td>
+                      <td>{this.state.costosP.d_total}</td>
                     </tr>
                     <tr>
                       <td><b>Total</b></td>
-                      <td></td>
-                      <td></td>
+                      <td>{this.state.costosP._Total}</td>
+                      <td>{this.state.costosP.d_Total}</td>
                     </tr>
                     <tr>
                       <td><b>Valor por credito</b></td>
-                      <td></td>
-                      <td></td>
+                      <td>{this.state.costosP.creditos} x {this.state.costosP.costo_credito}</td>
+                      <td>{this.state.costosP.creditos} x {this.state.costosP.costo_credito_d}</td>
                     </tr>
                   </table>
                 </div>
@@ -1134,6 +1134,7 @@ Filtrar=(e)=>{
   return response.json()
   })
   .then((pagos) => {
+    console.log(pagos)
   if(pagos.length > 0){
   this.setState({
     pagocero: pagos
