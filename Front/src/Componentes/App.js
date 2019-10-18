@@ -60,6 +60,7 @@ class App extends React.Component {
       conceptos:[],
       configuraciones:[],
       costosP: {},
+      costosP2: {},
       concepto:[],
       datos:[],
       monedas:[],
@@ -85,8 +86,9 @@ class App extends React.Component {
       {value:"separado",label:"Separado"},
       {value:"conviviente",label:"Conviviente"},
       {value:"fallecido",label:"Fallecido"}
-    ],
+      ],
     optionsProgramas:[],
+    optionsTipoPrograma:[],
     showModalConfiguracion:false,
     }
     this.clase='';
@@ -207,7 +209,31 @@ componentDidUpdate(){
    .catch(error=>{
      console.log(error)
    })
+   console.log(this.state.optionsTipoPrograma)
 
+   let option=[];
+   let a = {}
+   fetch(CONFIG+'alumno/alumnoprograma/programa/presupuesto/'+this.state.idPrograma)
+   .then((response)=>{
+     return response.json();
+    })
+    .then((programa)=>{
+  for(let i=0;i<programa.length;i++){
+    a={
+      value : 1,
+      label : programa[i].tarifa+'--Ciclo: '+programa[i].ciclo
+    }
+    option.push(a)
+  }
+  console.log(option)
+      this.setState({
+        optionsTipoPrograma : option
+      })
+    })
+    .catch(error=>{
+      console.log(error)
+    })
+    
   }, 3000);
 
 
@@ -746,9 +772,12 @@ this.setState({
     console.log(estado)
     //if(estado!== null){
       this.setState({
-        TipoProgramaInput:estado.label,
-        TipoPrograma:estado.value
+        TipopresupuestoInput:{value: estado.value,label: estado.label}
       });
+
+      this.actualizarProgramaPresupuesto();
+  this.componentWillMount();
+  
   }
 
   
@@ -925,33 +954,33 @@ this.setState({
                     </tr>
                     <tr>
                       <td><b>Matricula UPG</b></td>
-                      <td>{this.state.costosP.upg}</td>
-                      <td>{this.state.costosP.d_upg}</td>
+                      <td>{this.state.costosP2.upg}</td>
+                      <td>{this.state.costosP2.d_upg}</td>
                     </tr>
                     <tr>
                       <td><b>Matricula EPG</b></td>
-                      <td>{this.state.costosP.epg}</td>
-                      <td>{this.state.costosP.d_epg}</td>
+                      <td>{this.state.costosP2.epg}</td>
+                      <td>{this.state.costosP2.d_epg}</td>
                     </tr>
                     <tr>
                       <td><b>Derecho de Enseñanza</b></td>
-                      <td>{this.state.costosP.total}</td>
-                      <td>{this.state.costosP.d_total}</td>
+                      <td>{this.state.costosP2.total}</td>
+                      <td>{this.state.costosP2.d_total}</td>
                     </tr>
                     <tr>
                       <td><b>Total</b></td>
-                      <td>{this.state.costosP._Total}</td>
-                      <td>{this.state.costosP.d_Total}</td>
+                      <td>{this.state.costosP2._Total}</td>
+                      <td>{this.state.costosP2.d_Total}</td>
                     </tr>
                     <tr>
                       <td><b>Valor por credito</b></td>
-                      <td>{this.state.costosP.creditos} x {this.state.costosP.costo_credito}</td>
-                      <td>{this.state.costosP.creditos} x {this.state.costosP.costo_credito_d}</td>
+                      <td>{this.state.costosP2.creditos} x {this.state.costosP2.costo_credito}</td>
+                      <td>{this.state.costosP2.creditos} x {this.state.costosP2.costo_credito_d}</td>
                     </tr>
                   </table>
                 </div>
                 <div className="inline-block col-xs-2">
-                <button   className="waves-effect waves-light btn-small" type="submit" >Asignar Presupuesto<i className="large material-icons left">check</i></button>
+                <button  onClick={this.actualizarProgramaPresupuesto} className="waves-effect waves-light btn-small" type="submit" >Asignar Presupuesto<i className="large material-icons left">check</i></button>
                 </div>
 
               </div>
@@ -1155,6 +1184,14 @@ Filtrar=(e)=>{
   console.error(error)
   });
 
+  
+  setTimeout(() => {
+    this.setState({
+      costosP2: this.state.costosP
+    })
+  }, 500);
+  
+
 }
 
   SeleccionFechaDel(Fecha) {
@@ -1298,6 +1335,7 @@ AsignarPresupuesto=(e)=>{
 }
 
 reporte_credito(idx,nombrenuevo,auxPagos){
+  console.log(CONFIG+'beneficio/breporte_cr/' + nombrenuevo+'/'+auxPagos[0].idPrograma+"/"+idx)
      fetch(CONFIG+'beneficio/breporte_cr/' + nombrenuevo+'/'+auxPagos[0].idPrograma+"/"+idx)
      .then((response)=>{
          return response.json();
