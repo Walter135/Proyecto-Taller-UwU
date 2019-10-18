@@ -11,9 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.moduloalumno.dao.IAlumnoProgramaJOINProgramaJOINAlumnoDAO;
 import edu.moduloalumno.entity.AlumnoProgramaJOINProgramaJOINAlumno;
+import edu.moduloalumno.entity.Presupuesto;
 import edu.moduloalumno.entity.Programa;
 import edu.moduloalumno.rowmapper.AlumnoProgramaJOINProgramaJOINAlumnoRowMapper;
 import edu.moduloalumno.rowmapper.AlumnoProgramaJOINProgramaRowMapper;
+import edu.moduloalumno.rowmapper.PresupuestoRowMapper;
 import edu.moduloalumno.rowmapper.ProgramaRowMapper;
 
 @Transactional
@@ -72,6 +74,31 @@ public class AlumnoProgramaJOINProgramaJOINAlumnoDAOImpl implements IAlumnoProgr
 		}	
 	}
 	
+	@Override
+	public List<Programa> getPrograma() {
+		try {
+		String sql = "select id_programa,nom_programa,sigla_programa,vigencia_programa,id_tip_grado from programa";
+		RowMapper<Programa> rowMapper = new ProgramaRowMapper();
+		List<Programa> programa = jdbcTemplate.query(sql, rowMapper);
+		return programa;
+		}
+		catch (EmptyResultDataAccessException e) {
+			return null;
+		}	
+	}
+	
+	@Override
+	public List<Presupuesto> getPresupuesto(Integer id_programa) {
+		try {
+		String sql = "select desc_tarifa_ue,id_programa_ciclo from programa_presupuesto_det as ppd inner join concepto as co on ppd.id_concepto=co.id_concepto and ppd.id_programa_presupuesto=? order by ppd.id_concepto";
+		RowMapper<Presupuesto> rowMapper = new PresupuestoRowMapper();
+		List<Presupuesto> presupuesto = jdbcTemplate.query(sql, rowMapper,id_programa);
+		return presupuesto;
+		}
+		catch (EmptyResultDataAccessException e) {
+			return null;
+		}			
+	}
 	
 	
 }

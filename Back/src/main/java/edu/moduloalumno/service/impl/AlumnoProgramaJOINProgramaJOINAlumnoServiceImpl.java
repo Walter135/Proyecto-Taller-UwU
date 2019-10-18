@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import edu.moduloalumno.dao.IAlumnoProgramaJOINProgramaJOINAlumnoDAO;
 import edu.moduloalumno.entity.AlumnoProgramaJOINProgramaJOINAlumno;
+import edu.moduloalumno.entity.Presupuesto;
 import edu.moduloalumno.entity.Programa;
 import edu.moduloalumno.service.IAlumnoProgramaJOINProgramaJOINAlumnoService;
 
@@ -34,5 +35,16 @@ public class AlumnoProgramaJOINProgramaJOINAlumnoServiceImpl implements IAlumnoP
 		return programa;
 	}
 	
+	@Override
+	public List<Programa> getPrograma() {
+		List<Programa> programa = alumnoAlumnoProgramaDAO.getPrograma();
+		return programa;
+	}
+	
+	@Override
+	public List<Presupuesto> getPresupuesto(Integer id_programa) {
+		List<Presupuesto> presupuesto = alumnoAlumnoProgramaDAO.getPresupuesto(id_programa);
+		return presupuesto;
+	}
 	
 }
