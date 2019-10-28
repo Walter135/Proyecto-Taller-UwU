@@ -76,6 +76,8 @@ class App extends React.Component {
       presupuestoActual:"",//nuevo
       presupuesto:"", //nuevo
       mostrar:true,
+      mostrar_benef:true,//nuevo
+      mostrar_costo_final:true,//nuevo
       valor: true,
       estadoAlumnoInput:{value:"-1",label:"Escoga un nuevo estado"},
       TipopresupuestoInput:{value:"-1",label:"Escoja un presupuesto"},
@@ -169,7 +171,7 @@ componentDidUpdate(){
 
   //nuevo
   mostrarOcultar=()=>{
-    
+    //document.getElementById('boton-deshacer').style.display = 'none';
     if(this.state.mostrar){    
       document.getElementById('mostrar-ocultar').style.display = 'block';
       this.setState({
@@ -185,12 +187,42 @@ componentDidUpdate(){
     }
   }
 
+  //nuevo
+  mostrarCostoFinal=()=>{
+    if(this.state.mostrar_costo_final){    
+      document.getElementById('costo-final').style.display = 'flex';
+      this.setState({
+        mostrar_costo_final:false
+      })
+    }
+    else{
+      document.getElementById('costo-final').style.display = 'none';
+      this.setState({
+        mostrar_costo_final:true
+      })
+
+    }
+  }
+
+  //nuevo
+  mostrarBeneficio = () =>{
+    if(this.state.mostrar_benef){    
+      document.getElementById('tabla-beneficios').style.display = 'block';
+      this.setState({
+        mostrar_benef:false
+      })
+    }
+    else{
+      document.getElementById('tabla-beneficios').style.display = 'none';
+      this.setState({
+        mostrar_benef:true
+      })
+
+    }
+  } 
 
 
   componentWillMount() {
-
-
-
 
 
       setTimeout(() => {
@@ -203,7 +235,8 @@ componentDidUpdate(){
    .then((programa)=>{
      console.log(programa)
      this.setState({
-       presupuestoActual : programa.nomPrograma
+       presupuestoActual : programa.nomPrograma,
+       optionsTipoPrograma : [{value : programa.idPrograma,label:this.state.idPrograma+" - "+programa.nomPrograma}]/**/ 
      })
    })
    .catch(error=>{
@@ -226,17 +259,15 @@ componentDidUpdate(){
     option.push(a)
   }
   console.log(option)
-      this.setState({
-        optionsTipoPrograma : option
-      })
+      // this.setState({
+      //   optionsTipoPrograma : option
+      // })
     })
     .catch(error=>{
       console.log(error)
     })
     
-  }, 3000);
-
-
+  }, 2000);
 
 
 
@@ -740,7 +771,8 @@ this.setState({
 
   }
   
-  actualizarProgramaPresupuesto = () => {
+  actualizarProgramaPresupuesto = (mensaje=true) => {
+    //document.getElementById('boton-deshacer').style.display = 'flex';
     this.guardarPresupuesto()
     console.log(CONFIG+'recaudaciones/alumno/concepto/actualizarIdProgramaPrespuesto/'+this.state.name);
     fetch(CONFIG+'recaudaciones/alumno/concepto/actualizarIdProgramaPrespuesto/'+this.state.name,
@@ -751,14 +783,15 @@ this.setState({
           method: "PATCH",
         }
       ).then((response) => {
-   
         return response.json();
 
       })
         .then((defuncion) => {
-          
-          swal("Alumno Modificado Correctamente","","")
-          this.componentWillMount()
+          if(mensaje){
+            swal("Alumno Modificado Correctamente","","")
+            this.componentWillMount()
+          }
+            
 
         })
         .catch(error => {
@@ -775,12 +808,13 @@ this.setState({
         TipopresupuestoInput:{value: estado.value,label: estado.label}
       });
 
-      this.actualizarProgramaPresupuesto();
+      this.actualizarProgramaPresupuesto(false);
   this.componentWillMount();
+
+  this.Filtrar();
   
   }
 
-  
 
  handleChangeSelectPrograma = (estado) =>{
    console.log(estado)
@@ -871,12 +905,17 @@ this.setState({
                             <h6 align="center" className="Alumno"><b>Estado del alumno:</b></h6>
                             <h6 align="center" className="negro">{this.state.estadoAlumno}</h6>
 
-                            <div  className=" center espacio2">
+                            <div  className=" center ">
                               <button  type="submit"  onClick={e => this.editarConfiguracion(e,"value")}  className="waves-effect waves-light btn-small"> Editar estado 
                                   <i className="large material-icons left">edit</i>
-                              </button>
-                              
-                           </div>
+                              </button>              
+                            </div>
+                            <h6 align="center" className="Alumno"><b>Cuenta con Beneficio:</b></h6>
+                            <h6 align="center" className="negro">{/**/}Aqui iria beneficio</h6>
+                            <div  className=" center ">
+                              <button type="submit" onClick={this.mostrarBeneficio} className="waves-effect waves-light btn-small"> Ver Beneficio </button>              
+                            </div>
+
                           </div>
                         </div>
               </div>
@@ -915,75 +954,93 @@ this.setState({
                       <NumeroRecibo Numeros={this.FiltrarNumeros} />
                     </div>
                   </div>
-				  <div className="col-xs-4 ">
-                    <button onClick={this.actualizarProgramaPresupuesto}> Actualizar Presupuesto</button>
-                  </div>
                 </div>
               </div>
 
           </div>
 
           <hr />
-          <br/>
+          
+          <div id="tabla-beneficios">
+            <div className="alcentro ">
+                <div className="col-xs-11 row">
+                  <div className="verdeagua cuadro-borde col-xs-1"><b>N°</b></div>
+                  <div className="verdeagua cuadro-borde col-xs-2"><b>BENEFICIO</b></div>
+                  <div className="verdeagua cuadro-borde col-xs-2"><b>AUTORIZACION</b></div>
+                  <div className="verdeagua cuadro-borde col-xs-2"><b>CONDICION</b></div>
+                  <div className="verdeagua cuadro-borde col-xs-2"><b>FECHA</b></div>
+                  <div className="verdeagua cuadro-borde col-xs-2"><b>RESOLUCION</b></div>
+                </div> 
+            </div>
+            <div className="mb-3 alcentro ">
+                <div className="col-xs-11 row">
+                  <div className="cuadro-borde col-xs-1">{}as</div>
+                  <div className="cuadro-borde col-xs-2">{}sd</div>
+                  <div className="cuadro-borde col-xs-2">{}sd</div>
+                  <div className="cuadro-borde col-xs-2">{}sd</div>
+                  <div className="cuadro-borde col-xs-2">{}ssd</div>
+                  <div className="cuadro-borde col-xs-2">{}sd</div>
+                </div>
+            </div>
+          </div>
           <div>
             <div>
-              <h5 className="inline-block"><b>PRESUPUESTOS</b></h5>
-              <button onClick={this.mostrarOcultar}  className="waves-effect waves-light btn-small inline-block ml-3" type="submit">Mostrar/Ocultar</button>      
+              <button onClick={this.mostrarOcultar}  className="waves-effect waves-light btn-small inline-block ml-3" type="submit"> Presupuesto</button>      
             </div>
             <div id="mostrar-ocultar">
-              <div className="row mt-3" >
+              <div className="mt-3 alcentro">
+                <div className="col-xs-11 ">
+                    <Select className="ml-5 mb-3 col-xs-8" 
+                        name="TipoProgramaInput"
+                        id="TipoProgramaInput"
+                        placeholder="Seleccione un presupuesto"
+                        value={this.state.TipopresupuestoInput}
+                        onChange={this.handleChangeSelectTipoPrograma}
+                        options={this.state.optionsTipoPrograma}
+                      />
 
-                <div className="col-xs-2"> 
-                  <Select className="ml-2 col-xs-12 " 
-                      name="TipoProgramaInput"
-                      id="TipoProgramaInput"
-                      placeholder="Seleccione un presupuesto"
-                      value={this.state.TipopresupuestoInput}
-                      onChange={this.handleChangeSelectTipoPrograma}
-                      options={this.state.optionsTipoPrograma}
-                  />
                 </div>  
-                <button onClick={this.Filtrar}  className="waves-effect waves-light btn-small inline-block ml-3 col-xs-1" type="submit" >Ver detalle</button>
-    
-                <div className=" inline-block ml-3 col-xs-4">
-                  <table >                   
-                    <tr>
-                      <td></td>
-                      <td><b>COSTO REAL</b></td>
-                      <td><b>COSTO FINAL</b></td>
-                    </tr>
-                    <tr>
-                      <td><b>Matricula UPG</b></td>
-                      <td>{this.state.costosP2.upg}</td>
-                      <td>{this.state.costosP2.d_upg}</td>
-                    </tr>
-                    <tr>
-                      <td><b>Matricula EPG</b></td>
-                      <td>{this.state.costosP2.epg}</td>
-                      <td>{this.state.costosP2.d_epg}</td>
-                    </tr>
-                    <tr>
-                      <td><b>Derecho de Enseñanza</b></td>
-                      <td>{this.state.costosP2.total}</td>
-                      <td>{this.state.costosP2.d_total}</td>
-                    </tr>
-                    <tr>
-                      <td><b>Total</b></td>
-                      <td>{this.state.costosP2._Total}</td>
-                      <td>{this.state.costosP2.d_Total}</td>
-                    </tr>
-                    <tr>
-                      <td><b>Valor por credito</b></td>
-                      <td>{this.state.costosP2.creditos} x {this.state.costosP2.costo_credito}</td>
-                      <td>{this.state.costosP2.creditos} x {this.state.costosP2.costo_credito_d}</td>
-                    </tr>
-                  </table>
-                </div>
-                <div className="inline-block col-xs-2">
-                <button  onClick={this.actualizarProgramaPresupuesto} className="waves-effect waves-light btn-small" type="submit" >Asignar Presupuesto<i className="large material-icons left">check</i></button>
-                </div>
-
               </div>
+              <div className="alcentro ">
+                <div className="col-xs-11 row">
+                  <div className="col-xs-2"></div>
+                  <div className="verdeagua cuadro-borde col-xs-1"><b>MATRICULA UPG</b></div>
+                  <div className="verdeagua cuadro-borde col-xs-1"><b>MATRICULA EPG</b></div>
+                  <div className="verdeagua cuadro-borde col-xs-2"><b>DERECHO DE ENSEÑANZA</b></div>
+                  <div className="verdeagua cuadro-borde col-xs-1"><b>TOTAL</b></div>
+                  <div className="verdeagua cuadro-borde col-xs-1"><b>VALOR POR CREDITO</b></div>
+                </div> 
+              </div>
+              <div className="alcentro ">
+                <div className="col-xs-11 row">
+                  <div className="verdeagua cuadro-borde col-xs-2"><b>COSTO REAL</b></div>
+                  <div className="cuadro-borde col-xs-1">{this.state.costosP2.upg}</div>
+                  <div className="cuadro-borde col-xs-1">{this.state.costosP2.epg}</div>
+                  <div className="cuadro-borde col-xs-2">{this.state.costosP2.total}</div>
+                  <div className="cuadro-borde col-xs-1">{this.state.costosP2._Total}</div>
+                  <div className="cuadro-borde col-xs-1">{this.state.costosP2.creditos} x {this.state.costosP2.costo_credito}</div>
+                  <div >
+                    <button onClick={this.mostrarCostoFinal} className="waves-effect waves-light btn-small ml-3 " type="submit">Ver con Beneficios</button>
+                  </div>
+                </div>
+                
+              </div>
+              <div  className="alcentro ">
+                <div id="costo-final" className="col-xs-11 row">
+                  <div className="verdeagua cuadro-borde col-xs-2"><b>COSTO FINAL</b></div>
+                  <div className="cuadro-borde col-xs-1">{this.state.costosP2.d_upg}</div>
+                  <div className="cuadro-borde col-xs-1">{this.state.costosP2.d_epg}</div>
+                  <div className="cuadro-borde col-xs-2">{this.state.costosP2.d_total}</div>
+                  <div className="cuadro-borde col-xs-1">{this.state.costosP2.d_Total}</div>
+                  <div className="cuadro-borde col-xs-1">{this.state.costosP2.creditos} x {this.state.costosP2.costo_credito_d}</div>
+                </div>
+              </div>
+
+              <div className=" mt-4 centrar">
+                <button  onClick={this.actualizarProgramaPresupuesto} className="waves-effect waves-light btn-small ml-3 " type="submit" >Asignar Presupuesto<i className="large material-icons left">check</i></button>
+                <button id="boton-deshacer" onClick={this.Regresar}  className="waves-effect waves-light btn btn-danger  ml-3 " type="submit" >Deshacer</button>           
+              </div>
+              
 
             </div>           
           </div>
@@ -1007,7 +1064,6 @@ this.setState({
                 <a href="javascript:void(0)" class="closebtn" onClick={this.closeNav}>×</a>
                 <a href="#" onClick={this.seguimientoEgresados}>Seguimiento de Egresados</a>
                 <a href="#" onClick={this.enviarFormulario}>Revisar Beneficio</a>
-                <a href="#" onClick={this.AsignarPresupuesto}>Asignar Presupuesto</a>   {/*nuevo*/}
                 <a href="#" onClick={this.Regresar}>Regresar</a>
               </div>
               {/*Fin*/}
@@ -1098,6 +1154,13 @@ this.setState({
 
 
 //obtenemos la fecha del componente FILTROFECHA1
+
+Regresar=(e)=>{
+  e.preventDefault()
+  console.log("Estoy guardando el presupuesto "+this.state.presupuestoActual)
+  swal("Se desasigno correctamente","","info")
+}
+
 Filtrar=(e)=>{
   var concep = [];
   concep = this.SeleccionConceptos();

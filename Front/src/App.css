@@ -68,6 +68,22 @@ width: 130px !important; /*Aquí va el ancho de la Celda*/
   text-align: center;
   align-content: center;
 }
+
+.alcentro{
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.verdeagua{
+  background-color: #215c75;
+  text-align: center;
+  color:#ffffff;
+  
+}
+
+
+
 .recibo{
   text-align: center;
   align-content: center;
@@ -187,6 +203,16 @@ label {
  /*nuevoo*/
  #mostrar-ocultar{
    display: none;
+ }
+
+ /*nuevooo*/
+ #tabla-beneficios{
+  display: none;
+ }
+
+ /*nuevo*/
+ #costo-final{
+   display:none;
  }
 
  .container{
