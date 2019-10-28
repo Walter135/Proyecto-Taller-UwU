@@ -92,6 +92,7 @@ class App extends React.Component {
     optionsProgramas:[],
     optionsTipoPrograma:[],
     showModalConfiguracion:false,
+    beneficios:[]
     }
     this.clase='';
     this.alumno = '';
@@ -137,6 +138,20 @@ componentDidUpdate(){
        else{
          this.setState({estado:1})
         }
+
+    
+ }
+
+ hallarBeneficios=(codigo)=>{
+   fetch(CONFIG+'beneficio/listar/' + codigo)
+  .then(response=>{
+    return response.json()
+  })
+  .then(beneficios=>{
+    this.setState({
+      beneficios
+    })
+  })
  }
 
   colocar=()=>{
@@ -267,8 +282,8 @@ componentDidUpdate(){
       console.log(error)
     })
     
+    this.hallarBeneficios(this.state.alumno.apeNom);
   }, 2000);
-
 
 
     this.pageOfItems = this.pagocero;
@@ -972,16 +987,20 @@ this.setState({
                   <div className="verdeagua cuadro-borde col-xs-2"><b>RESOLUCION</b></div>
                 </div> 
             </div>
-            <div className="mb-3 alcentro ">
+            { (this.state.beneficios.length>0) ?
+              Object.keys(this.state.beneficios).map(key=>(
+              
+              <div className="mb-3 alcentro " key={key}>
                 <div className="col-xs-11 row">
-                  <div className="cuadro-borde col-xs-1">{}as</div>
-                  <div className="cuadro-borde col-xs-2">{}sd</div>
-                  <div className="cuadro-borde col-xs-2">{}sd</div>
-                  <div className="cuadro-borde col-xs-2">{}sd</div>
-                  <div className="cuadro-borde col-xs-2">{}ssd</div>
-                  <div className="cuadro-borde col-xs-2">{}sd</div>
+                  <div className="cuadro-borde col-xs-1">{key+1}</div>
+                  <div className="cuadro-borde col-xs-2">{this.state.beneficios[key].tipo}</div>
+                  <div className="cuadro-borde col-xs-2">{this.state.beneficios[key].autorizacion}</div>
+                  <div className="cuadro-borde col-xs-2">{this.state.beneficios[key].condicion}</div>
+                  <div className="cuadro-borde col-xs-2">{this.state.beneficios[key].fecha}</div>
+                  <div className="cuadro-borde col-xs-2">{this.state.beneficios[key].resolucion}</div>
                 </div>
             </div>
+            )) : null}
           </div>
           <div>
             <div>
