@@ -57,7 +57,6 @@ class AsignarPresupuesto extends React.Component{
     }
 
 
-
     render(){
 
         return(
@@ -71,8 +70,13 @@ class AsignarPresupuesto extends React.Component{
               <br/>
               <div className="row">
                 <label className="col-xs-2">Seleccione un Programa</label>
-                <Select className="col-xs-2" 
+                <Select className="col-xs-8" 
                     placeholder="Seleccione una opcion"
+                    name="selecprograma"
+                    id="selecprograma"
+                    value=""
+                    onChange=""
+                    options=""
                 />
               </div>
               
@@ -80,9 +84,19 @@ class AsignarPresupuesto extends React.Component{
                <label className="col-xs-3">Seleccione un Periodo Academico</label>
                <Select className="col-xs-2" 
                     placeholder="Periodo Inicial"
+                    name="primerperiodo"
+                    id="primerperiodo"
+                    value=""
+                    onChange=""
+                    options=""
                 />
                 <Select className="col-xs-2" 
                     placeholder="Periodo Final"
+                    name="segundoperiodo"
+                    id="segundoperiodo"
+                    value=""
+                    onChange=""
+                    options=""
                 />
                 <button onClick={this.seleccionar} className="waves-effect waves-light btn-small">
                   Filtrar</button>
@@ -92,7 +106,12 @@ class AsignarPresupuesto extends React.Component{
               <div className="row mt-4">
                 <label className="col-xs-2">Seleccione un Presupuesto</label>
                 <Select className="col-xs-2" 
-                    placeholder="Seleccione una opcion"
+                    placeholder="Seleccione un presupuesto"
+                    name="selecpresupuesto"
+                    id="selecpresupuesto"
+                    value=""
+                    onChange=""
+                    options=""
                 />
               </div>
 

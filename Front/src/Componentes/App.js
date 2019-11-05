@@ -114,7 +114,7 @@ class App extends React.Component {
     this.seleccionar=this.seleccionar.bind(this);
     this.enviar=this.enviar.bind(this);
     this.Funcion=this.Funcion.bind(this);
-    this.Regresar=this.Regresar.bind(this);
+    this.Regresar2=this.Regresar2.bind(this);
     this.openNav = this.openNav.bind(this);
     this.closeNav = this.closeNav.bind(this);
     this.show_or_hide = this.show_or_hide.bind(this);
@@ -997,7 +997,7 @@ this.setState({
               <div className="mb-3 alcentro " key={key}>
                 <div className="col-xs-11 row">
                   <div className="cuadro-borde col-xs-1">{key+1}</div>
-                  <div className="cuadro-borde col-xs-2">{this.state.beneficios[key].tipo}</div>
+                  <div className="cuadro-borde col-xs-2">{this.state.beneficios[key].benef_otrogado}%</div>
                   <div className="cuadro-borde col-xs-2">{this.state.beneficios[key].autorizacion}</div>
                   <div className="cuadro-borde col-xs-2">{this.state.beneficios[key].condicion}</div>
                   <div className="cuadro-borde col-xs-2">{this.state.beneficios[key].fecha}</div>
@@ -1065,7 +1065,7 @@ this.setState({
 
               <div className=" mt-4 centrar">
                 <button  onClick={this.actualizarProgramaPresupuesto} className="waves-effect waves-light btn-small ml-3 " type="submit" >Asignar Presupuesto<i className="large material-icons left">check</i></button>
-                <button id="boton-deshacer" onClick={this.Regresar}  className="waves-effect waves-light btn btn-danger  ml-3 " type="submit" >Deshacer</button>           
+                <button id="boton-deshacer" onClick={this.Regresar2}  className="waves-effect waves-light btn btn-danger  ml-3 " type="submit" >Deshacer</button>           
               </div>
               
 
@@ -1182,7 +1182,7 @@ this.setState({
 
 //obtenemos la fecha del componente FILTROFECHA1
 
-Regresar=(e)=>{
+Regresar2=(e)=>{
   e.preventDefault()
   console.log("Estoy guardando el presupuesto "+this.state.presupuestoActual)
   swal("Se desasigno correctamente","","info")
