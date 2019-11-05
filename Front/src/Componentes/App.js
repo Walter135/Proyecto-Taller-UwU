@@ -925,8 +925,12 @@ this.setState({
                                   <i className="large material-icons left">edit</i>
                               </button>              
                             </div>
-                            <h6 align="center" className="Alumno"><b>Cuenta con Beneficio:</b></h6>
-                            <h6 align="center" className="negro">{/**/}Aqui iria beneficio</h6>
+                            
+                            <div className="row">
+                              <div className="col-xs-8 Alumno"><b>Tiene Beneficio:</b></div>
+                              {(this.state.beneficios.length>0)?(<div className="col-xs-1 negro">Si</div>):(<div className="col-xs-1 negro">No</div>)}
+                            </div>
+                            
                             <div  className=" center ">
                               <button type="submit" onClick={this.mostrarBeneficio} className="waves-effect waves-light btn-small"> Ver Beneficio </button>              
                             </div>
@@ -978,14 +982,14 @@ this.setState({
           
           <div id="tabla-beneficios">
             <div className="alcentro ">
-                <div className="col-xs-11 row">
-                  <div className="verdeagua cuadro-borde col-xs-1"><b>N°</b></div>
-                  <div className="verdeagua cuadro-borde col-xs-2"><b>BENEFICIO</b></div>
-                  <div className="verdeagua cuadro-borde col-xs-2"><b>AUTORIZACION</b></div>
-                  <div className="verdeagua cuadro-borde col-xs-2"><b>CONDICION</b></div>
-                  <div className="verdeagua cuadro-borde col-xs-2"><b>FECHA</b></div>
-                  <div className="verdeagua cuadro-borde col-xs-2"><b>RESOLUCION</b></div>
-                </div> 
+              <div className="col-xs-11 row">
+                <div className="verdeagua cuadro-borde col-xs-1"><b>N°</b></div>
+                <div className="verdeagua cuadro-borde col-xs-2"><b>BENEFICIO</b></div>
+                <div className="verdeagua cuadro-borde col-xs-2"><b>AUTORIZACION</b></div>
+                <div className="verdeagua cuadro-borde col-xs-2"><b>CONDICION</b></div>
+                <div className="verdeagua cuadro-borde col-xs-2"><b>FECHA</b></div>
+                <div className="verdeagua cuadro-borde col-xs-2"><b>RESOLUCION</b></div>
+              </div> 
             </div>
             { (this.state.beneficios.length>0) ?
               Object.keys(this.state.beneficios).map(key=>(
@@ -999,8 +1003,12 @@ this.setState({
                   <div className="cuadro-borde col-xs-2">{this.state.beneficios[key].fecha}</div>
                   <div className="cuadro-borde col-xs-2">{this.state.beneficios[key].resolucion}</div>
                 </div>
-            </div>
-            )) : null}
+              </div>
+            )) : (<div className="mb-3 alcentro " >
+                    <div className="col-xs-11 row">
+                        <div className="cuadro-borde col-xs-11">Usted no cuenta con ningun beneficio</div>
+                    </div>
+                  </div>)}
           </div>
           <div>
             <div>
@@ -1033,10 +1041,10 @@ this.setState({
               <div className="alcentro ">
                 <div className="col-xs-11 row">
                   <div className="verdeagua cuadro-borde col-xs-2"><b>COSTO REAL</b></div>
-                  <div className="cuadro-borde col-xs-1">{this.state.costosP2.upg}</div>
-                  <div className="cuadro-borde col-xs-1">{this.state.costosP2.epg}</div>
-                  <div className="cuadro-borde col-xs-2">{this.state.costosP2.total}</div>
-                  <div className="cuadro-borde col-xs-1">{this.state.costosP2._Total}</div>
+                  <div className="cuadro-borde col-xs-1">S/ {this.state.costosP2.upg}</div>
+                  <div className="cuadro-borde col-xs-1">S/ {this.state.costosP2.epg}</div>
+                  <div className="cuadro-borde col-xs-2">S/ {this.state.costosP2.total}</div>
+                  <div className="cuadro-borde col-xs-1">S/ {this.state.costosP2._Total}</div>
                   <div className="cuadro-borde col-xs-1">{this.state.costosP2.creditos} x {this.state.costosP2.costo_credito}</div>
                   <div >
                     <button onClick={this.mostrarCostoFinal} className="waves-effect waves-light btn-small ml-3 " type="submit">Ver con Beneficios</button>
@@ -1047,10 +1055,10 @@ this.setState({
               <div  className="alcentro ">
                 <div id="costo-final" className="col-xs-11 row">
                   <div className="verdeagua cuadro-borde col-xs-2"><b>COSTO FINAL</b></div>
-                  <div className="cuadro-borde col-xs-1">{this.state.costosP2.d_upg}</div>
-                  <div className="cuadro-borde col-xs-1">{this.state.costosP2.d_epg}</div>
-                  <div className="cuadro-borde col-xs-2">{this.state.costosP2.d_total}</div>
-                  <div className="cuadro-borde col-xs-1">{this.state.costosP2.d_Total}</div>
+                  <div className="cuadro-borde col-xs-1">S/ {this.state.costosP2.d_upg}</div>
+                  <div className="cuadro-borde col-xs-1">S/ {this.state.costosP2.d_epg}</div>
+                  <div className="cuadro-borde col-xs-2">S/ {this.state.costosP2.d_total}</div>
+                  <div className="cuadro-borde col-xs-1">S/ {this.state.costosP2.d_Total}</div>
                   <div className="cuadro-borde col-xs-1">{this.state.costosP2.creditos} x {this.state.costosP2.costo_credito_d}</div>
                 </div>
               </div>
