@@ -90,7 +90,7 @@ public class AlumnoProgramaJOINProgramaJOINAlumnoDAOImpl implements IAlumnoProgr
 	@Override
 	public List<Presupuesto> getPresupuesto(Integer id_programa) {
 		try {
-		String sql = "select desc_tarifa_ue,id_programa_ciclo from programa_presupuesto_det as ppd inner join concepto as co on ppd.id_concepto=co.id_concepto and ppd.id_programa_presupuesto=? order by ppd.id_concepto";
+		String sql = "select id_programa_presupuesto,id_programa,costo_credito,costo_total from programa_presupuesto where id_programa=?";
 		RowMapper<Presupuesto> rowMapper = new PresupuestoRowMapper();
 		List<Presupuesto> presupuesto = jdbcTemplate.query(sql, rowMapper,id_programa);
 		return presupuesto;

@@ -92,7 +92,8 @@ class App extends React.Component {
     optionsProgramas:[],
     optionsTipoPrograma:[],
     showModalConfiguracion:false,
-    beneficios:[]
+    beneficios:[],
+    numeroPresupuesto : ''
     }
     this.clase='';
     this.alumno = '';
@@ -243,16 +244,22 @@ componentDidUpdate(){
       setTimeout(() => {
         
 
-    fetch(CONFIG+'alumno/alumnoprograma/programa/'+this.state.idPrograma)
+    fetch(CONFIG+'alumno/alumnoprograma/programa/presupuesto/'+this.state.idPrograma)
    .then((response)=>{
      return response.json();
    })
    .then((programa)=>{
      console.log(programa)
-     this.setState({
-       presupuestoActual : programa.nomPrograma,
-       optionsTipoPrograma : [{value : programa.idPrograma,label:this.state.idPrograma+" - "+programa.nomPrograma}]/**/ 
-     })
+
+    let arreglo=[]
+    Object.keys(programa).map(key=>(
+      arreglo.push({value : programa[key].programa_presupuesto,label: programa[key].programa_presupuesto+" - "+this.state.pageOfItems[0].nomPrograma})
+    ))
+
+      console.log(arreglo)
+      this.setState({
+        optionsTipoPrograma : arreglo/**/ 
+      })
    })
    .catch(error=>{
      console.log(error)
@@ -820,6 +827,7 @@ this.setState({
     console.log(estado)
     //if(estado!== null){
       this.setState({
+        numeroPresupuesto : estado.value,
         TipopresupuestoInput:{value: estado.value,label: estado.label}
       });
 
@@ -1036,6 +1044,9 @@ this.setState({
                   <div className="verdeagua cuadro-borde col-xs-2"><b>DERECHO DE ENSEÑANZA</b></div>
                   <div className="verdeagua cuadro-borde col-xs-1"><b>TOTAL</b></div>
                   <div className="verdeagua cuadro-borde col-xs-1"><b>VALOR POR CREDITO</b></div>
+
+                  <div> {this.state.numeroPresupuesto}</div>
+
                 </div> 
               </div>
               <div className="alcentro ">
