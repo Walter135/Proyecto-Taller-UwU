@@ -82,8 +82,6 @@ width: 130px !important; /*Aquí va el ancho de la Celda*/
   
 }
 
-
-
 .recibo{
   text-align: center;
   align-content: center;
@@ -125,17 +123,7 @@ border-radius: 8px;
 .colorI{
   color: #215c75;
 }
-/* input{
-    width: 190px;
-    padding: 12px 20px;
-    margin: 8px 3;
-    display: inline-block;
-    border: 1px solid lightblue;
-    border-radius: 4px;
-    box-sizing: border-box;
-    background-position: 2px 10px; 
-    background-repeat: no-repeat;
-} */
+
 
 label {
  
@@ -150,7 +138,6 @@ label {
 }
 
 
-
 .imprimir{
  float: right;
  margin-right:40px;
@@ -160,37 +147,7 @@ label {
   margin-right:20px;
   margin-top:20px;
  }
-/* 
-.pagination{
-  display: inline-block;
-}
-.pagination li{
-  display: inline;
-}
-.pagination li a{
-    color: black;
-    float: left;
-    padding: 8px 16px;
-    text-decoration: none;
-    border-radius: 5px;
-    background: fuchsia;
-    border: 1px solid #ddd; /* Gray *
-    }
-    /
 
-
-.pagination li a:hover{
-  color: black;
-  float: left;
-  padding: 8px 16px;
-  text-decoration: none;
-  border-radius: 5px;
-  background: violet;
-}
-.pagination li a.active{
-  background-color: #4CAF50;
-    color: white;
-} */
 .margencomponente{
   margin-top: 50px;
 }
@@ -214,6 +171,11 @@ label {
  #costo-final{
    display:none;
  }
+
+/*nuevo*/
+#alumnosP{
+  display:none;
+}
 
  .container{
    margin-top: 20px;
@@ -254,6 +216,12 @@ label {
   margin-top: 20px;
   margin-bottom: 20px;
  } 
+
+.margen3{
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+ 
 .margen_izq{
   margin-left: 65px;
   margin-right: 20px;
@@ -322,23 +290,7 @@ select {
 .botonazul2{
   margin-top: 10px;
 }
-/* .boton{
-  width:45px;
-  height:45px;
-  background-color:#215c75;
-  color:white;
-  margin: auto 0;
-  padding:5px;
-  align-content: center;
-  border-radius: 50px;
-  font-size:45px;
-  text-align:center;
-} */
-/* .boton:hover{
-  
-  background-color: black;
-  color:lightblue;
-} */
+
 h4{
   font-size: 35px;
   color: #042431;
@@ -437,8 +389,8 @@ h6 {
 .cuadro{
   background-color: #f2f2f2;
   margin-top: 20px;
-  margin-left: 115px;
-  margin-right: 115px;
+  margin-left: 40px;
+  margin-right: 40px;
   margin-bottom: 20px;
   padding: 20px;
 }
