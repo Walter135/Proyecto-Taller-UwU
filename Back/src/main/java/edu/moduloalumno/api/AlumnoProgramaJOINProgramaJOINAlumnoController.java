@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.moduloalumno.entity.AlumnoProgramaJOINProgramaJOINAlumno;
+import edu.moduloalumno.entity.AlumnoSemestre;
 import edu.moduloalumno.entity.Presupuesto;
 import edu.moduloalumno.entity.Programa;
+import edu.moduloalumno.entity.Semestre;
 import edu.moduloalumno.service.IAlumnoProgramaJOINProgramaJOINAlumnoService;
 import edu.moduloalumno.util.Operaciones;
 
@@ -171,6 +173,49 @@ public class AlumnoProgramaJOINProgramaJOINAlumnoController {
 
 		logger.info("< getAlumnoProgramasIdByNombresApellidosRestringido [AlumnoPrograma]");
 		return new ResponseEntity<List<AlumnoProgramaJOINProgramaJOINAlumno>>(listInterseccion, HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(value = "/semestres", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Semestre>> getSemestre() {
+		logger.info("> getSemestres [Semestre]");
+
+		List<Semestre> semestre = null;
+		try {
+			semestre = service.getSemestre();
+
+			if (semestre == null) {	
+				semestre = new ArrayList<Semestre>();
+			}
+			
+		} catch (Exception e) {
+			logger.error("Unexpected Exception caught.", e);
+			return new ResponseEntity<List<Semestre>>(semestre, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		logger.info("< getSemestre [Semestre]");
+		return new ResponseEntity<List<Semestre>>(semestre, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/alumnosemestres/{periodo_inicial}/{periodo_final}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<AlumnoSemestre>> getAlumnoSemestre(@PathVariable("periodo_inicial") String periodo_inicial,@PathVariable("periodo_final") String periodo_final) {
+		logger.info("> getAlumnoSemestres [AlumnoSemestres]");
+
+		List<AlumnoSemestre> alumnosemestre = null;
+		try {
+			alumnosemestre = service.getAlumnoSemestre(periodo_inicial,periodo_final);
+
+			if (alumnosemestre == null) {	
+				alumnosemestre = new ArrayList<AlumnoSemestre>();
+			}
+			
+		} catch (Exception e) {
+			logger.error("Unexpected Exception caught.", e);
+			return new ResponseEntity<List<AlumnoSemestre>>(alumnosemestre, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		logger.info("< getAlumnoSemestre [AlumnoSemestre]");
+		return new ResponseEntity<List<AlumnoSemestre>>(alumnosemestre, HttpStatus.OK);
 	}
 	
 	//hola mundo

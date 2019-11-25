@@ -34,6 +34,8 @@ class AsignarPresupuesto extends React.Component{
             mostrar:true,
             //valores para los select
             optionsTipoPrograma:[],
+            optionsSemestrePrimer:[],
+            optionsSemestreSegundo:[],
             programas:[],
             programasBD:[],
             select_programas:[],
@@ -41,9 +43,12 @@ class AsignarPresupuesto extends React.Component{
             tipo_programa:[{value:"03",label:"Maestria"},{value:"05",label:"Doctorado"},{value:"06",label:"Diplomatura"}],
             tipo_actual:{value:"-1",label:"Seleccione un tipo"},
             TipopresupuestoInput:{value:"-1",label:"Seleccione un presupuesto"},
+            semestreInput1:{value:"-1",label:"Seleccione un periodo Inicial"},
+            semestreInput2:{value:"-1",label:"Seleccione un periodo Final"},
             periodos:[],
             presupuestos:[],
-
+            semestres:[],
+            vacio:true
             //codigo: this.props.params.name
         }
 
@@ -62,6 +67,27 @@ class AsignarPresupuesto extends React.Component{
         
         this.setState({
           programasBD : programa
+        })
+      })
+
+      let arreglo=[];
+
+      fetch(CONFIG+'alumno/alumnoprograma/programa/semestres')
+      .then((response)=>{
+        return response.json();
+      })
+      .then((semestres)=>{
+        this.setState({
+          semestres 
+        })
+
+        Object.keys(semestres).map(key=>(
+          arreglo.push({value:key,label:semestres[key].semestre})
+        ))
+
+        this.setState({
+          optionsSemestrePrimer : arreglo, 
+          optionsSemestreSegundo :arreglo
         })
       })
    
@@ -164,10 +190,48 @@ class AsignarPresupuesto extends React.Component{
 
     handleChangeSelectTipoPrograma=(estado)=>{
       this.setState({
-        TipopresupuestoInput:{value: estado.value,label: estado.label}
+        TipopresupuestoInput:{value: estado.value,label: estado.label},
+        vacio:false
       });
     }
 
+    handleChangeSelectSemestre1=(estado)=>{
+      let arreglo=[]
+      Object.keys(this.state.semestres).map(key=>(
+        (Number(key)>Number(estado.value)) ?
+        (arreglo.push({value:key,label:this.state.semestres[key].semestre})) :
+        null
+      ))
+
+      this.setState({
+        semestreInput1 : {value: estado.value,label: estado.label},
+        optionsSemestreSegundo : arreglo
+      })
+    }
+
+    handleChangeSelectSemestre2=(estado)=>{
+      let arreglo=[]
+      Object.keys(this.state.semestres).map(key=>(
+        (Number(key)<Number(estado.value)) ?
+        (arreglo.push({value:key,label:this.state.semestres[key].semestre})) :
+        null
+      ))
+
+      this.setState({
+        semestreInput2 : {value: estado.value,label: estado.label},
+        optionsSemestrePrimer : arreglo
+      })
+    }
+
+    seleccionar=()=>{
+      fetch(CONFIG+'alumno/alumnoprograma/programa/alumnosemestres/'+this.state.semestreInput1.label+"/"+this.state.semestreInput2.label)
+      .then((response)=>{
+        return response.json();
+      })
+      .then((resultado)=>{
+        console.log(resultado)
+      })
+    }
 
     render(){
 
@@ -229,19 +293,19 @@ class AsignarPresupuesto extends React.Component{
                         placeholder="Periodo Inicial"
                         name="primerperiodo"
                         id="primerperiodo"
-                        value=""
-                        onChange=""
-                        options=""
-                        disabled = {true}
+                        value={this.state.semestreInput1}
+                        onChange={this.handleChangeSelectSemestre1}
+                        options={this.state.optionsSemestrePrimer}
+                        disabled = {this.state.vacio}
                     />
                   <Select className="col-xs-2" 
                       placeholder="Periodo Final"
                       name="segundoperiodo"
                       id="segundoperiodo"
-                      value=""
-                      onChange=""
-                      options=""
-                      disabled = {true}
+                      value={this.state.semestreInput2}
+                      onChange={this.handleChangeSelectSemestre2}
+                      options={this.state.optionsSemestreSegundo}
+                      disabled = {this.state.vacio}
                   />
                   <button onClick={this.seleccionar} className=" waves-light btn-small">Filtrar</button>
                 </div>   

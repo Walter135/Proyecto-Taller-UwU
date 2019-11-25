@@ -11,12 +11,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.moduloalumno.dao.IAlumnoProgramaJOINProgramaJOINAlumnoDAO;
 import edu.moduloalumno.entity.AlumnoProgramaJOINProgramaJOINAlumno;
+import edu.moduloalumno.entity.AlumnoSemestre;
 import edu.moduloalumno.entity.Presupuesto;
 import edu.moduloalumno.entity.Programa;
+import edu.moduloalumno.entity.Semestre;
 import edu.moduloalumno.rowmapper.AlumnoProgramaJOINProgramaJOINAlumnoRowMapper;
 import edu.moduloalumno.rowmapper.AlumnoProgramaJOINProgramaRowMapper;
+import edu.moduloalumno.rowmapper.AlumnoSemestreRowMapper;
 import edu.moduloalumno.rowmapper.PresupuestoRowMapper;
 import edu.moduloalumno.rowmapper.ProgramaRowMapper;
+import edu.moduloalumno.rowmapper.SemestreRowMapper;
 
 @Transactional
 @Repository
@@ -77,7 +81,7 @@ public class AlumnoProgramaJOINProgramaJOINAlumnoDAOImpl implements IAlumnoProgr
 	@Override
 	public List<Programa> getPrograma() {
 		try {
-		String sql = "select id_programa,nom_programa,sigla_programa,vigencia_programa,id_tip_grado from programa";
+		String sql = "select id_programa,nom_programa,sigla_programa,vigencia_programa,id_tip_grado from programa where vigencia_programa=true";
 		RowMapper<Programa> rowMapper = new ProgramaRowMapper();
 		List<Programa> programa = jdbcTemplate.query(sql, rowMapper);
 		return programa;
@@ -100,5 +104,28 @@ public class AlumnoProgramaJOINProgramaJOINAlumnoDAOImpl implements IAlumnoProgr
 		}			
 	}
 	
+	public List<Semestre> getSemestre() {
+		try {
+		String sql = "select distinct semestre from Matricula_cab order by semestre";
+		RowMapper<Semestre> rowMapper = new SemestreRowMapper();
+		List<Semestre> semestre = jdbcTemplate.query(sql, rowMapper);
+		return semestre;
+		}
+		catch (EmptyResultDataAccessException e) {
+			return null;
+		}			
+	}
+	
+	public List<AlumnoSemestre> getAlumnoSemestre(String periodoinicial,String periodofinal) {
+		try {
+		String sql = "select (a.nom_alumno || ' ' || a.ape_paterno || ' ' || a.ape_materno) as nombre_completo,m.cod_alumno as cod_alumno, m.semestre as semestre from alumno_programa a inner join matricula_cab m on a.cod_alumno=m.cod_alumno and semestre > ? and semestre < ?";
+		RowMapper<AlumnoSemestre> rowMapper = new AlumnoSemestreRowMapper();
+		List<AlumnoSemestre> alumnosemestre = jdbcTemplate.query(sql, rowMapper,periodoinicial,periodofinal);
+		return alumnosemestre;
+		}
+		catch (EmptyResultDataAccessException e) {
+			return null;
+		}			
+	}
 	
 }
