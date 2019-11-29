@@ -876,7 +876,7 @@ this.setState({
                             />
                       </ModalBody>
                       <ModalFooter>
-                        <Button color="green" onClick={this.guardarCambios}>Guardar</Button><p>         </p>
+                        <Button color="green" onClick={this.guardarCambios}>Guardar</Button><p>  </p>
                         <Button color="secondary" onClick={this.closeModal}>Salir</Button>
                     </ModalFooter>
                 </div>      
