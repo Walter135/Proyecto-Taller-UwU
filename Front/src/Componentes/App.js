@@ -265,9 +265,10 @@ componentDidUpdate(){
      return response.json();
     })
     .then((programa)=>{
+      console.log(programa)
   for(let i=0;i<programa.length;i++){
     a={
-      value : 1,
+      value : programa[i].programa_presupuesto,
       label : programa[i].tarifa+'--Ciclo: '+programa[i].ciclo
     }
     option.push(a)
@@ -777,8 +778,8 @@ this.setState({
   actualizarProgramaPresupuesto = (mensaje=true) => {
     //document.getElementById('boton-deshacer').style.display = 'flex';
     this.guardarPresupuesto()
-    console.log(CONFIG+'recaudaciones/alumno/concepto/actualizarIdProgramaPrespuesto/'+this.state.name);
-    fetch(CONFIG+'recaudaciones/alumno/concepto/actualizarIdProgramaPrespuesto/'+this.state.name,
+    console.log(CONFIG+'recaudaciones/alumno/concepto/actualizarIdProgramaPrespuesto/'+this.state.idPrograma+'/'+this.state.name)
+    fetch(CONFIG+'recaudaciones/alumno/concepto/actualizarIdProgramaPrespuesto/'+this.state.idPrograma+'/'+this.state.name,
         {
           headers: {
             'Content-Type': 'application/json'
@@ -876,7 +877,7 @@ this.setState({
                             />
                       </ModalBody>
                       <ModalFooter>
-                        <Button color="green" onClick={this.guardarCambios}>Guardar</Button><p>         </p>
+                        <Button color="green" onClick={this.guardarCambios}>Guardar</Button><p>  </p>
                         <Button color="secondary" onClick={this.closeModal}>Salir</Button>
                     </ModalFooter>
                 </div>      

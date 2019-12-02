@@ -183,8 +183,8 @@ public class RecaudacionesJOINAlumnoJOINConceptoJOINFacultadServiceImpl implemen
 	}
 	
 	@Override
-	public int updateId_Programa(String codigo) {
-		return recaudacionesJOINAlumnoJOINConceptoJOINFacultadDAO.updateId_Programa(codigo);
+	public int updateId_Programa(Integer idprograma,String codigo) {
+		return recaudacionesJOINAlumnoJOINConceptoJOINFacultadDAO.updateId_Programa(idprograma,codigo);
 		
 	}
 	

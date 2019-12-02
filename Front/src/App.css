@@ -177,6 +177,16 @@ label {
   display:none;
 }
 
+/*nuevo*/
+.dis-none{
+  display:none;
+}
+
+/*nuevo*/
+.sombreado-rojo{
+  background: red;
+}
+
  .container{
    margin-top: 20px;
   background:#eceaea;
@@ -382,9 +392,19 @@ h6 {
 /*nuevo*/
 .cuadro-borde{
   border: 1px solid #000000;
-  
-
 }
+/*nuevo*/  
+.margenes-cuadro{
+  margin-top:2%;
+  margin-left:12%;
+  margin-right:12%;
+  margin-bottom: 2%;
+}
+/*nuevo*/
+.margenes-padding{
+  padding: 8px;
+}
+
 /*nuevo*/
 .cuadro{
   background-color: #f2f2f2;

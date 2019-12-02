@@ -55,5 +55,5 @@ public interface IRecaudacionesJOINAlumnoJOINConceptoJOINFacultadService {
 
 	int updateAlumnoEstadoCivil(String codigo, String estado_civil);
 	
-	int updateId_Programa(String codigo);
+	int updateId_Programa(Integer idprograma,String codigo);
 }

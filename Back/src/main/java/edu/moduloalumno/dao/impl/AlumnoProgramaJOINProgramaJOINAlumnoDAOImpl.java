@@ -118,7 +118,7 @@ public class AlumnoProgramaJOINProgramaJOINAlumnoDAOImpl implements IAlumnoProgr
 	
 	public List<AlumnoSemestre> getAlumnoSemestre(String periodoinicial,String periodofinal) {
 		try {
-		String sql = "select (a.nom_alumno || ' ' || a.ape_paterno || ' ' || a.ape_materno) as nombre_completo,m.cod_alumno as cod_alumno, m.semestre as semestre from alumno_programa a inner join matricula_cab m on a.cod_alumno=m.cod_alumno and semestre > ? and semestre < ?";
+		String sql = "select distinct (a.nom_alumno || ' ' || a.ape_paterno || ' ' || a.ape_materno) as nombre_completo,m.cod_alumno as cod_alumno, max(m.semestre) as semestre from alumno_programa a inner join matricula_cab m on a.cod_alumno=m.cod_alumno and semestre >= ? and semestre <= ? group by a.nom_alumno,a.ape_paterno,a.ape_materno,m.cod_alumno";
 		RowMapper<AlumnoSemestre> rowMapper = new AlumnoSemestreRowMapper();
 		List<AlumnoSemestre> alumnosemestre = jdbcTemplate.query(sql, rowMapper,periodoinicial,periodofinal);
 		return alumnosemestre;

@@ -478,15 +478,15 @@ public class RecaudacionesJOINAlumnoJOINConceptoJOINFacultadController {
 		return new ResponseEntity<Integer>(estadoCivilAlumno, HttpStatus.OK);
 	} 
 	
-	@RequestMapping(value = "/actualizarIdProgramaPrespuesto/{codigo}", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Integer> generarId_Programa_Presupuesto(@PathVariable("codigo") String codigo) {
+	@RequestMapping(value = "/actualizarIdProgramaPrespuesto/{idprograma}/{codigo}", method = RequestMethod.PATCH, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Integer> generarId_Programa_Presupuesto(@PathVariable("codigo") String codigo,@PathVariable("idprograma") Integer idprograma) {
 		logger.info("> updateidPresupuesto [Recaudaciones]");
 
 		int idPresupuesto= 0;
 
 		try {
 			
-			idPresupuesto = recaudacionesJOINAlumnoJOINConceptoJOINFacultadservice.updateId_Programa(codigo);
+			idPresupuesto = recaudacionesJOINAlumnoJOINConceptoJOINFacultadservice.updateId_Programa(idprograma,codigo);
 			if (idPresupuesto == 0) {
 				idPresupuesto = 0;
 			}
