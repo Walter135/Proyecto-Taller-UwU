@@ -34,9 +34,13 @@ class AsignarPresupuesto extends React.Component{
             presupuestos:[],
             semestres:[],
             vacio:true,
+<<<<<<< HEAD
             alumnosM:[],
             arregloAlumnos : [],
             programaSeleccionado : 0
+=======
+            alumnosM:[]
+>>>>>>> 8caaa8b3f9354dee3b63d35e49b5dad54547d915
         }
 
         this.Regresar=this.Regresar.bind(this);
@@ -227,8 +231,12 @@ class AsignarPresupuesto extends React.Component{
       })
     }
 
+<<<<<<< HEAD
     AgregarAlumno=(arreglo,e)=>{
       this.state.arregloAlumnos.splice(e,1,arreglo);
+=======
+    AgregarAlumno=(e)=>{
+>>>>>>> 8caaa8b3f9354dee3b63d35e49b5dad54547d915
 
       document.getElementById('boton_remove' + e.toString()).classList.remove("dis-none");
       document.getElementById('boton_add' + e.toString()).classList.add("dis-none");
@@ -237,11 +245,19 @@ class AsignarPresupuesto extends React.Component{
       document.getElementById('fila2' + e.toString()).classList.remove("sombreado-rojo");
       document.getElementById('fila3' + e.toString()).classList.remove("sombreado-rojo");
       document.getElementById('fila4' + e.toString()).classList.remove("sombreado-rojo");
+<<<<<<< HEAD
       console.log(this.state.arregloAlumnos)
     }
 
     removerAlumno=(e)=>{
         this.state.arregloAlumnos.splice(e,1,{})
+=======
+    }
+
+    removerAlumno=(e)=>{
+        //console.log('El valor de la llave es: '+e);
+
+>>>>>>> 8caaa8b3f9354dee3b63d35e49b5dad54547d915
         //console.log(this.state.alumnosM);
         document.getElementById('boton_remove' + e.toString()).classList.add("dis-none");
         document.getElementById('boton_add' + e.toString()).classList.remove("dis-none");
@@ -250,6 +266,7 @@ class AsignarPresupuesto extends React.Component{
         document.getElementById('fila2' + e.toString()).classList.add("sombreado-rojo");
         document.getElementById('fila3' + e.toString()).classList.add("sombreado-rojo");
         document.getElementById('fila4' + e.toString()).classList.add("sombreado-rojo");
+<<<<<<< HEAD
         console.log(this.state.arregloAlumnos);
       }
 
@@ -276,6 +293,12 @@ class AsignarPresupuesto extends React.Component{
           ) : 
           null
       ))
+=======
+      }
+
+    AsignarPres=()=>{
+
+>>>>>>> 8caaa8b3f9354dee3b63d35e49b5dad54547d915
     }  
 
     DesasignarPres=()=>{
@@ -299,7 +322,11 @@ class AsignarPresupuesto extends React.Component{
                               <i className="large material-icons left">remove_circle</i>
                               </button>
 
+<<<<<<< HEAD
                               <button onClick={e=>this.AgregarAlumno(this.state.alumnosM[key],key)} id={"boton_add"+key} className="waves-effect waves-light btn-small btn-success start mt-1 mb-1 dis-none">Incluir
+=======
+                              <button onClick={e=>this.AgregarAlumno(key)} id={"boton_add"+key} className="waves-effect waves-light btn-small btn-success start mt-1 mb-1 dis-none">Incluir
+>>>>>>> 8caaa8b3f9354dee3b63d35e49b5dad54547d915
                               <i className="large material-icons left">add_circle</i>
                               </button>
                               
