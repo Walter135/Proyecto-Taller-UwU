@@ -778,7 +778,6 @@ this.setState({
   actualizarProgramaPresupuesto = (mensaje=true) => {
     //document.getElementById('boton-deshacer').style.display = 'flex';
     this.guardarPresupuesto()
-    console.log(CONFIG+'recaudaciones/alumno/concepto/actualizarIdProgramaPrespuesto/'+this.state.idPrograma+'/'+this.state.name)
     fetch(CONFIG+'recaudaciones/alumno/concepto/actualizarIdProgramaPrespuesto/'+this.state.idPrograma+'/'+this.state.name,
         {
           headers: {
@@ -811,10 +810,12 @@ this.setState({
       this.setState({
         TipopresupuestoInput:{value: estado.value,label: estado.label}
       });
-
+      
       this.actualizarProgramaPresupuesto(false);
-  this.componentWillMount();
-  this.Filtrar();
+        setTimeout(() => {
+        this.componentWillMount();
+        this.Filtrar();
+      }, 1000);
   
   }
 

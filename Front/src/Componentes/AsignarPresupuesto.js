@@ -34,13 +34,12 @@ class AsignarPresupuesto extends React.Component{
             presupuestos:[],
             semestres:[],
             vacio:true,
-<<<<<<< HEAD
             alumnosM:[],
             arregloAlumnos : [],
-            programaSeleccionado : 0
-=======
-            alumnosM:[]
->>>>>>> 8caaa8b3f9354dee3b63d35e49b5dad54547d915
+            programaSeleccionado : 0,
+            alumnosM:[],
+            arregloProgramaOriginal : [],
+            detallePresupuesto : { upg: 0,epg:0,derecho:0,total:0,valor1:0,valor2:0}
         }
 
         this.Regresar=this.Regresar.bind(this);
@@ -229,14 +228,49 @@ class AsignarPresupuesto extends React.Component{
         })
         console.log(resultado)
       })
+
+      switch(this.state.programaSeleccionado){
+        case 1 : this.setState({
+                    detallePresupuesto : { upg: 0, epg:0, derecho:5808, total:5808, valor1:24, valor2:242}
+                  });
+                  break;
+        case 2 : this.setState({
+                    detallePresupuesto : { upg: 0, epg:0, derecho:5808, total:5808, valor1:24, valor2:242}
+                  });
+                  break;
+        case 3 : this.setState({
+                    detallePresupuesto : { upg: 0, epg:0, derecho:5808, total:5808, valor1:24, valor2:242}
+                  });
+                  break;
+        case 4 : this.setState({
+                    detallePresupuesto : { upg: 1816, epg:208, derecho:16488, total:16488, valor1:72, valor2:229}
+                  });
+                  break;
+        case 5 : this.setState({
+                    detallePresupuesto : { upg: 1816, epg:208, derecho:16488, total:16488, valor1:72, valor2:229}
+                  });
+                  break;
+        case 6 : this.setState({
+                    detallePresupuesto : { upg: 1816, epg:208, derecho:16488, total:16488, valor1:72, valor2:229}
+                  });
+                  break;
+        case 7 : this.setState({
+                    detallePresupuesto : { upg: 1816, epg:208, derecho:16488, total:16488, valor1:212, valor2:229}
+                  });
+                  break;
+        case 8 : this.setState({
+                    detallePresupuesto : { upg: 3000, epg:312, derecho:29472, total:32784, valor1:96, valor2:307}
+                  });
+                  break;        
+      }
+
+
+
+
     }
 
-<<<<<<< HEAD
     AgregarAlumno=(arreglo,e)=>{
       this.state.arregloAlumnos.splice(e,1,arreglo);
-=======
-    AgregarAlumno=(e)=>{
->>>>>>> 8caaa8b3f9354dee3b63d35e49b5dad54547d915
 
       document.getElementById('boton_remove' + e.toString()).classList.remove("dis-none");
       document.getElementById('boton_add' + e.toString()).classList.add("dis-none");
@@ -245,19 +279,13 @@ class AsignarPresupuesto extends React.Component{
       document.getElementById('fila2' + e.toString()).classList.remove("sombreado-rojo");
       document.getElementById('fila3' + e.toString()).classList.remove("sombreado-rojo");
       document.getElementById('fila4' + e.toString()).classList.remove("sombreado-rojo");
-<<<<<<< HEAD
+      document.getElementById('fila5' + e.toString()).classList.remove("sombreado-rojo");
       console.log(this.state.arregloAlumnos)
     }
 
-    removerAlumno=(e)=>{
-        this.state.arregloAlumnos.splice(e,1,{})
-=======
-    }
 
     removerAlumno=(e)=>{
-        //console.log('El valor de la llave es: '+e);
-
->>>>>>> 8caaa8b3f9354dee3b63d35e49b5dad54547d915
+      this.state.arregloAlumnos.splice(e,1,{})
         //console.log(this.state.alumnosM);
         document.getElementById('boton_remove' + e.toString()).classList.add("dis-none");
         document.getElementById('boton_add' + e.toString()).classList.remove("dis-none");
@@ -266,11 +294,16 @@ class AsignarPresupuesto extends React.Component{
         document.getElementById('fila2' + e.toString()).classList.add("sombreado-rojo");
         document.getElementById('fila3' + e.toString()).classList.add("sombreado-rojo");
         document.getElementById('fila4' + e.toString()).classList.add("sombreado-rojo");
-<<<<<<< HEAD
+        document.getElementById('fila5' + e.toString()).classList.add("sombreado-rojo");
+
         console.log(this.state.arregloAlumnos);
       }
 
     AsignarPres=()=>{
+      var arreglo = [...this.state.arregloAlumnos]
+      this.setState({
+        arregloProgramaOriginal : arreglo
+      })
       Object.keys(this.state.arregloAlumnos).map(key=>(
         // console.log(this.state.arregloAlumnos[key].codigo)
           (this.state.arregloAlumnos[key].codigo) ? (
@@ -293,16 +326,38 @@ class AsignarPresupuesto extends React.Component{
           ) : 
           null
       ))
-=======
+      setTimeout(() => {
+        this.seleccionar();        
+      }, 1000);
       }
 
-    AsignarPres=()=>{
-
->>>>>>> 8caaa8b3f9354dee3b63d35e49b5dad54547d915
-    }  
-
     DesasignarPres=()=>{
-      
+      console.log("UwU")
+      Object.keys(this.state.arregloProgramaOriginal).map(key=>(
+        // console.log(this.state.arregloAlumnos[key].codigo)
+          (this.state.arregloProgramaOriginal[key].codigo) ? (
+            fetch(CONFIG+'recaudaciones/alumno/concepto/actualizarIdProgramaPrespuesto/'+this.state.arregloProgramaOriginal[key].programa+'/'+this.state.arregloProgramaOriginal[key].codigo,
+            {
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              method: "PATCH",
+            }
+          )
+          .then((defuncion) => {
+              swal("Presupuesto Desasignado Correctamente","","")  
+          })
+          .catch(error => {
+            // si hay algún error lo mostramos en consola
+            swal("Oops, Algo salió mal!!", "", "error")
+            console.error(error)
+          })
+          ) : 
+          null
+      ))
+      setTimeout(() => {
+        this.seleccionar();        
+      }, 1000);
     }
 
     recorrerAlumnos=()=>{
@@ -314,21 +369,14 @@ class AsignarPresupuesto extends React.Component{
                         <div className="col-xs-12 row" >
                           <div className="cuadro-borde col-xs-1  " id={"fila"+key}><div className="margenes-padding">{indice++}</div></div>
                           <div className="cuadro-borde col-xs-2  " id={"fila2"+key}><div className="margenes-padding">{this.state.alumnosM[key].codigo}</div></div>
-                          <div className="cuadro-borde col-xs-5  " id={"fila3"+key}><div className="margenes-padding">{this.state.alumnosM[key].nombre}</div></div>
+                          <div className="cuadro-borde col-xs-4  " id={"fila3"+key}><div className="margenes-padding">{this.state.alumnosM[key].nombre}</div></div>
                           <div className="cuadro-borde col-xs-2  " id={"fila4"+key}><div className="margenes-padding">{this.state.alumnosM[key].semestre}</div></div>
-                          
+                          <div className="cuadro-borde col-xs-1  " id={"fila5"+key}><div className="margenes-padding">{this.state.alumnosM[key].programa}</div></div>
                           <div className="cuadro-borde col-xs-2 ">
                               <button onClick={e=>this.removerAlumno(key)} id={"boton_remove"+key} className="waves-effect waves-light btn-small btn-danger start mt-1 mb-1">Remover
                               <i className="large material-icons left">remove_circle</i>
                               </button>
-
-<<<<<<< HEAD
-                              <button onClick={e=>this.AgregarAlumno(this.state.alumnosM[key],key)} id={"boton_add"+key} className="waves-effect waves-light btn-small btn-success start mt-1 mb-1 dis-none">Incluir
-=======
-                              <button onClick={e=>this.AgregarAlumno(key)} id={"boton_add"+key} className="waves-effect waves-light btn-small btn-success start mt-1 mb-1 dis-none">Incluir
->>>>>>> 8caaa8b3f9354dee3b63d35e49b5dad54547d915
-                              <i className="large material-icons left">add_circle</i>
-                              </button>
+                              <button onClick={e=>this.AgregarAlumno(this.state.alumnosM[key],key)} id={"boton_add"+key} className="waves-effect waves-light btn-small btn-success start mt-1 mb-1 dis-none">Incluir</button>
                               
                           </div> 
                         </div>
@@ -440,11 +488,11 @@ class AsignarPresupuesto extends React.Component{
                   </div>
                   <div className="alcentro ">
                     <div className="col-xs-12 row">
-                      <div className="cuadro-borde col-xs-2">S/ {/*this.state.costosP2.upg*/}</div>
-                      <div className="cuadro-borde col-xs-2">S/ {/*this.state.costosP2.epg*/}</div>
-                      <div className="cuadro-borde col-xs-3">S/ {/*this.state.costosP2.total*/}</div>
-                      <div className="cuadro-borde col-xs-2">S/ {/*this.state.costosP2._Total*/}</div>
-                      <div className="cuadro-borde col-xs-2">{/*this.state.costosP2.creditos*/} x {/*this.state.costosP2.costo_credito*/}</div> 
+                      <div className="cuadro-borde col-xs-2">S/ {this.state.detallePresupuesto.upg}</div>
+                      <div className="cuadro-borde col-xs-2">S/ {this.state.detallePresupuesto.epg}</div>
+                      <div className="cuadro-borde col-xs-3">S/ {this.state.detallePresupuesto.derecho}</div>
+                      <div className="cuadro-borde col-xs-2">S/ {this.state.detallePresupuesto.total}</div>
+                      <div className="cuadro-borde col-xs-2">{this.state.detallePresupuesto.valor1} x {this.state.detallePresupuesto.valor2}</div> 
                     </div>             
                   </div>
                   <h5 className="mt-3">Total de alumnos a los que aplica el presupuesto: {this.state.alumnosM.length}</h5>
@@ -455,8 +503,9 @@ class AsignarPresupuesto extends React.Component{
                       <div className="col-xs-12 row">
                         <div className="verdeagua cuadro-borde col-xs-1 "><b>N°</b></div>
                         <div className="verdeagua cuadro-borde col-xs-2 "><b>CODIGO ALUMNO</b></div>
-                        <div className="verdeagua cuadro-borde col-xs-5 "><b>NOMBRE DEL ALUMNO</b></div>
+                        <div className="verdeagua cuadro-borde col-xs-4 "><b>NOMBRE DEL ALUMNO</b></div>
                         <div className="verdeagua cuadro-borde col-xs-2 "><b>PERIODO DE INGRESO</b></div>
+                        <div className="verdeagua cuadro-borde col-xs-1 "><b>PRESUPUESTO ACTUAL ACTUAL</b></div>
                         <div className="verdeagua cuadro-borde col-xs-2 "><b>PARA ASIGNACION</b></div>
                       </div> 
                     </div>

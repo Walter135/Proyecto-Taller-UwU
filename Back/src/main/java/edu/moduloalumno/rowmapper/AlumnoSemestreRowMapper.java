@@ -13,6 +13,7 @@ public class AlumnoSemestreRowMapper implements RowMapper<AlumnoSemestre>{
 		alumnosemestre.setSemestre(row.getString("semestre"));
 		alumnosemestre.setCodigo(row.getString("cod_alumno"));
 		alumnosemestre.setNombre(row.getString("nombre_completo"));
+		alumnosemestre.setPrograma(row.getInt("programa"));
 		return alumnosemestre;
 	}
 }

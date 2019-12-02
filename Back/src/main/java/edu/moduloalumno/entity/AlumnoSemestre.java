@@ -8,6 +8,7 @@ public class AlumnoSemestre implements Serializable{
 	private String semestre;
 	private String codigo;
 	private String nombre;
+	private Integer programa;
 	
 	public String getSemestre() {
 		return semestre;
@@ -31,6 +32,14 @@ public class AlumnoSemestre implements Serializable{
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public Integer getPrograma() {
+		return programa;
+	}
+
+	public void setPrograma(Integer programa) {
+		this.programa = programa;
 	}
 
 }
