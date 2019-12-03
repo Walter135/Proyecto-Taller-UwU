@@ -28,8 +28,8 @@ class AsignarPresupuesto extends React.Component{
             tipo_programa:[{value:"03",label:"Maestria"},{value:"05",label:"Doctorado"},{value:"06",label:"Diplomatura"}],
             tipo_actual:{value:"-1",label:"Seleccione un tipo"},
             TipopresupuestoInput:{value:"-1",label:"Seleccione un presupuesto"},
-            semestreInput1:{value:"-1",label:"Seleccione un periodo Inicial"},
-            semestreInput2:{value:"-1",label:"Seleccione un periodo Final"},
+            semestreInput1:{value:"-1",label:"Seleccione periodo Inicial"},
+            semestreInput2:{value:"-1",label:"Seleccione periodo Final"},
             periodos:[],
             presupuestos:[],
             semestres:[],
@@ -275,11 +275,11 @@ class AsignarPresupuesto extends React.Component{
       document.getElementById('boton_remove' + e.toString()).classList.remove("dis-none");
       document.getElementById('boton_add' + e.toString()).classList.add("dis-none");
       
-      document.getElementById('fila' + e.toString()).classList.remove("sombreado-rojo");
-      document.getElementById('fila2' + e.toString()).classList.remove("sombreado-rojo");
-      document.getElementById('fila3' + e.toString()).classList.remove("sombreado-rojo");
-      document.getElementById('fila4' + e.toString()).classList.remove("sombreado-rojo");
-      document.getElementById('fila5' + e.toString()).classList.remove("sombreado-rojo");
+      document.getElementById('fila-' + e.toString()).classList.remove("sombreado-rojo");
+      document.getElementById('fila2-' + e.toString()).classList.remove("sombreado-rojo");
+      document.getElementById('fila3-' + e.toString()).classList.remove("sombreado-rojo");
+      document.getElementById('fila4-' + e.toString()).classList.remove("sombreado-rojo");
+      document.getElementById('fila5-' + e.toString()).classList.remove("sombreado-rojo");
       console.log(this.state.arregloAlumnos)
     }
 
@@ -290,11 +290,11 @@ class AsignarPresupuesto extends React.Component{
         document.getElementById('boton_remove' + e.toString()).classList.add("dis-none");
         document.getElementById('boton_add' + e.toString()).classList.remove("dis-none");
         
-        document.getElementById('fila' + e.toString()).classList.add("sombreado-rojo");
-        document.getElementById('fila2' + e.toString()).classList.add("sombreado-rojo");
-        document.getElementById('fila3' + e.toString()).classList.add("sombreado-rojo");
-        document.getElementById('fila4' + e.toString()).classList.add("sombreado-rojo");
-        document.getElementById('fila5' + e.toString()).classList.add("sombreado-rojo");
+        document.getElementById('fila-' + e.toString()).classList.add("sombreado-rojo");
+        document.getElementById('fila2-' + e.toString()).classList.add("sombreado-rojo");
+        document.getElementById('fila3-' + e.toString()).classList.add("sombreado-rojo");
+        document.getElementById('fila4-' + e.toString()).classList.add("sombreado-rojo");
+        document.getElementById('fila5-' + e.toString()).classList.add("sombreado-rojo");
 
         console.log(this.state.arregloAlumnos);
       }
@@ -328,7 +328,7 @@ class AsignarPresupuesto extends React.Component{
       ))
       setTimeout(() => {
         this.seleccionar();        
-      }, 1000);
+      }, 3500);
       }
 
     DesasignarPres=()=>{
@@ -367,11 +367,11 @@ class AsignarPresupuesto extends React.Component{
                       Object.keys(this.state.alumnosM).map(key=>(
                       <div className="alcentro " key={key}>
                         <div className="col-xs-12 row" >
-                          <div className="cuadro-borde col-xs-1  " id={"fila"+key}><div className="margenes-padding">{indice++}</div></div>
-                          <div className="cuadro-borde col-xs-2  " id={"fila2"+key}><div className="margenes-padding">{this.state.alumnosM[key].codigo}</div></div>
-                          <div className="cuadro-borde col-xs-4  " id={"fila3"+key}><div className="margenes-padding">{this.state.alumnosM[key].nombre}</div></div>
-                          <div className="cuadro-borde col-xs-2  " id={"fila4"+key}><div className="margenes-padding">{this.state.alumnosM[key].semestre}</div></div>
-                          <div className="cuadro-borde col-xs-1  " id={"fila5"+key}><div className="margenes-padding">{this.state.alumnosM[key].programa}</div></div>
+                          <div className="cuadro-borde col-xs-1  " id={"fila-"+key}><div className="margenes-padding">{indice++}</div></div>
+                          <div className="cuadro-borde col-xs-2  " id={"fila2-"+key}><div className="margenes-padding">{this.state.alumnosM[key].codigo}</div></div>
+                          <div className="cuadro-borde col-xs-4  " id={"fila3-"+key}><div className="margenes-padding">{this.state.alumnosM[key].nombre}</div></div>
+                          <div className="cuadro-borde col-xs-1  " id={"fila4-"+key}><div className="margenes-padding">{this.state.alumnosM[key].semestre}</div></div>
+                          <div className="cuadro-borde col-xs-2  " id={"fila5-"+key}><div className="margenes-padding">{this.state.alumnosM[key].programa}</div></div>
                           <div className="cuadro-borde col-xs-2 ">
                               <button onClick={e=>this.removerAlumno(key)} id={"boton_remove"+key} className="waves-effect waves-light btn-small btn-danger start mt-1 mb-1">Remover
                               <i className="large material-icons left">remove_circle</i>
@@ -504,8 +504,8 @@ class AsignarPresupuesto extends React.Component{
                         <div className="verdeagua cuadro-borde col-xs-1 "><b>N°</b></div>
                         <div className="verdeagua cuadro-borde col-xs-2 "><b>CODIGO ALUMNO</b></div>
                         <div className="verdeagua cuadro-borde col-xs-4 "><b>NOMBRE DEL ALUMNO</b></div>
-                        <div className="verdeagua cuadro-borde col-xs-2 "><b>PERIODO DE INGRESO</b></div>
-                        <div className="verdeagua cuadro-borde col-xs-1 "><b>PRESUPUESTO ACTUAL ACTUAL</b></div>
+                        <div className="verdeagua cuadro-borde col-xs-1 "><b>PERIODO</b></div>
+                        <div className="verdeagua cuadro-borde col-xs-2 "><b>PRESUPUESTO ACTUAL</b></div>
                         <div className="verdeagua cuadro-borde col-xs-2 "><b>PARA ASIGNACION</b></div>
                       </div> 
                     </div>
