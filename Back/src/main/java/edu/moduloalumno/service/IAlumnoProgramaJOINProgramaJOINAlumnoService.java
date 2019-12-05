@@ -19,6 +19,6 @@ public interface IAlumnoProgramaJOINProgramaJOINAlumnoService {
 	List<Programa> getPrograma();
 	List<Presupuesto> getPresupuesto(Integer id_programa);
 	public List<Semestre> getSemestre();
-	public List<AlumnoSemestre> getAlumnoSemestre(String periodoinicial,String periodofinal);
+	public List<AlumnoSemestre> getAlumnoSemestre(Integer semestre,String periodoinicial,String periodofinal);
 
 }

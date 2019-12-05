@@ -2,6 +2,8 @@ package edu.moduloalumno.dao.impl;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -27,6 +29,8 @@ import edu.moduloalumno.rowmapper.SemestreRowMapper;
 public class AlumnoProgramaJOINProgramaJOINAlumnoDAOImpl implements IAlumnoProgramaJOINProgramaJOINAlumnoDAO {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Override
 	public List<AlumnoProgramaJOINProgramaJOINAlumno> getAllAlumnoProgramaJOINProgramaJOINAlumnos() {
@@ -116,11 +120,15 @@ public class AlumnoProgramaJOINProgramaJOINAlumnoDAOImpl implements IAlumnoProgr
 		}			
 	}
 	
-	public List<AlumnoSemestre> getAlumnoSemestre(String periodoinicial,String periodofinal) {
+	public List<AlumnoSemestre> getAlumnoSemestre(Integer semestre,String periodoinicial,String periodofinal) {
 		try {
-		String sql = "select distinct (a.nom_alumno || ' ' || a.ape_paterno || ' ' || a.ape_materno) as nombre_completo,a.id_programa_presupuesto as programa,m.cod_alumno as cod_alumno, max(m.semestre) as semestre from alumno_programa a inner join matricula_cab m on a.cod_alumno=m.cod_alumno and semestre >= ? and semestre <= ? group by a.nom_alumno,a.ape_paterno,a.ape_materno,m.cod_alumno,a.id_programa_presupuesto";
+			logger.info(periodoinicial.substring(2, 4)+" "+periodofinal.substring(2, 4));
+		String sql = "select distinct (a.nom_alumno || ' ' || a.ape_paterno || ' ' || a.ape_materno) as nombre_completo,"
+				+ "	a.id_programa_presupuesto as presupuesto,m.cod_alumno as cod_alumno, max(m.semestre) as semestre from alumno_programa"
+				+ " a inner join matricula_cab m on a.cod_alumno=m.cod_alumno and semestre >= ? and semestre <= ? and a.id_programa=? "
+				+ "and substring(m.cod_alumno,0,3)>=? and substring(m.cod_alumno,0,3)<=? group by a.nom_alumno,a.ape_paterno,a.ape_materno,m.cod_alumno,a.id_programa_presupuesto";
 		RowMapper<AlumnoSemestre> rowMapper = new AlumnoSemestreRowMapper();
-		List<AlumnoSemestre> alumnosemestre = jdbcTemplate.query(sql, rowMapper,periodoinicial,periodofinal);
+		List<AlumnoSemestre> alumnosemestre = jdbcTemplate.query(sql, rowMapper,periodoinicial,periodofinal,semestre,periodoinicial.substring(2, 4),periodofinal.substring(2, 4));
 		return alumnosemestre;
 		}
 		catch (EmptyResultDataAccessException e) {

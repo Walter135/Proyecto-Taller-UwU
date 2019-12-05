@@ -8,7 +8,7 @@ public class AlumnoSemestre implements Serializable{
 	private String semestre;
 	private String codigo;
 	private String nombre;
-	private Integer programa;
+	private Integer presupuesto;
 	
 	public String getSemestre() {
 		return semestre;
@@ -34,12 +34,12 @@ public class AlumnoSemestre implements Serializable{
 		this.nombre = nombre;
 	}
 
-	public Integer getPrograma() {
-		return programa;
+	public Integer getPresupuesto() {
+		return presupuesto;
 	}
 
-	public void setPrograma(Integer programa) {
-		this.programa = programa;
+	public void setPresupuesto(Integer presupuesto) {
+		this.presupuesto = presupuesto;
 	}
 
 }

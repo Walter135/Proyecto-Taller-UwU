@@ -197,13 +197,13 @@ public class AlumnoProgramaJOINProgramaJOINAlumnoController {
 		return new ResponseEntity<List<Semestre>>(semestre, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/alumnosemestres/{periodo_inicial}/{periodo_final}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<AlumnoSemestre>> getAlumnoSemestre(@PathVariable("periodo_inicial") String periodo_inicial,@PathVariable("periodo_final") String periodo_final) {
+	@RequestMapping(value = "/alumnosemestres/{periodo_inicial}/{periodo_final}/{semestre}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<AlumnoSemestre>> getAlumnoSemestre(@PathVariable("semestre") Integer semestre,@PathVariable("periodo_inicial") String periodo_inicial,@PathVariable("periodo_final") String periodo_final) {
 		logger.info("> getAlumnoSemestres [AlumnoSemestres]");
 
 		List<AlumnoSemestre> alumnosemestre = null;
 		try {
-			alumnosemestre = service.getAlumnoSemestre(periodo_inicial,periodo_final);
+			alumnosemestre = service.getAlumnoSemestre(semestre,periodo_inicial,periodo_final);
 
 			if (alumnosemestre == null) {	
 				alumnosemestre = new ArrayList<AlumnoSemestre>();

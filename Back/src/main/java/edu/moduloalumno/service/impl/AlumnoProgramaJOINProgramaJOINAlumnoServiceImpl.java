@@ -56,8 +56,8 @@ public class AlumnoProgramaJOINProgramaJOINAlumnoServiceImpl implements IAlumnoP
 	}
 	
 	@Override
-	public List<AlumnoSemestre> getAlumnoSemestre(String periodoinicial,String periodofinal){
-		List<AlumnoSemestre> alumnosemestre = alumnoAlumnoProgramaDAO.getAlumnoSemestre(periodoinicial,periodofinal);
+	public List<AlumnoSemestre> getAlumnoSemestre(Integer semestre,String periodoinicial,String periodofinal){
+		List<AlumnoSemestre> alumnosemestre = alumnoAlumnoProgramaDAO.getAlumnoSemestre(semestre,periodoinicial,periodofinal);
 		return alumnosemestre;
 	}
 	

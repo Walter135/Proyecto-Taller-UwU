@@ -499,7 +499,8 @@ public class RecaudacionesJOINAlumnoJOINConceptoJOINFacultadDAOImpl implements I
 			
 		} 
 		public int updateId_Programa(Integer idprograma,String codigo) {
-				
+				if(idprograma==0)
+					idprograma=null;
 				String sql ="update alumno_programa set id_programa_presupuesto = ? where cod_alumno= ?";
 				
 				

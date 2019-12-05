@@ -153,10 +153,6 @@ class AsignarPresupuesto extends React.Component{
     //////////------------
 
     mostrarAlumnosP=()=>{
-      var arreglo = [...this.state.alumnosM]
-      this.setState({
-        arregloAlumnos : arreglo
-      })
         document.getElementById('presupuesto').style.display='none';
         document.getElementById('alumnosP').style.display = 'block';  
     }
@@ -218,7 +214,7 @@ class AsignarPresupuesto extends React.Component{
     }
 
     seleccionar=()=>{
-      fetch(CONFIG+'alumno/alumnoprograma/programa/alumnosemestres/'+this.state.semestreInput1.label+"/"+this.state.semestreInput2.label)
+      fetch(CONFIG+'alumno/alumnoprograma/programa/alumnosemestres/'+this.state.semestreInput1.label+"/"+this.state.semestreInput2.label+"/"+this.state.programaSeleccionado)
       .then((response)=>{
         return response.json();
       })
@@ -226,6 +222,12 @@ class AsignarPresupuesto extends React.Component{
         this.setState({
           alumnosM : resultado
         })
+
+        
+      var arreglo = [...this.state.alumnosM]
+      this.setState({
+        arregloAlumnos : arreglo
+      })
         console.log(resultado)
       })
 
@@ -264,8 +266,18 @@ class AsignarPresupuesto extends React.Component{
                   break;        
       }
 
+      var lista= document.getElementsByClassName('cuadro-borde');
+      var remover = document.getElementsByClassName('remover');
+      var aumentar = document.getElementsByClassName('aumentar');
 
+      for(var i=0;i<lista.length;i++)
+        lista[i].classList.remove("sombreado-rojo");
 
+      for(var i=0;i<remover.length;i++)
+        remover[i].classList.remove("dis-none");
+      
+      for(var i=0;i<aumentar.length;i++)
+        aumentar[i].classList.add("dis-none");
 
     }
 
@@ -332,11 +344,10 @@ class AsignarPresupuesto extends React.Component{
       }
 
     DesasignarPres=()=>{
-      console.log("UwU")
       Object.keys(this.state.arregloProgramaOriginal).map(key=>(
         // console.log(this.state.arregloAlumnos[key].codigo)
           (this.state.arregloProgramaOriginal[key].codigo) ? (
-            fetch(CONFIG+'recaudaciones/alumno/concepto/actualizarIdProgramaPrespuesto/'+this.state.arregloProgramaOriginal[key].programa+'/'+this.state.arregloProgramaOriginal[key].codigo,
+            fetch(CONFIG+'recaudaciones/alumno/concepto/actualizarIdProgramaPrespuesto/'+this.state.arregloProgramaOriginal[key].presupuesto+'/'+this.state.arregloProgramaOriginal[key].codigo,
             {
               headers: {
                 'Content-Type': 'application/json'
@@ -371,12 +382,12 @@ class AsignarPresupuesto extends React.Component{
                           <div className="cuadro-borde col-xs-2  " id={"fila2-"+key}><div className="margenes-padding">{this.state.alumnosM[key].codigo}</div></div>
                           <div className="cuadro-borde col-xs-4  " id={"fila3-"+key}><div className="margenes-padding">{this.state.alumnosM[key].nombre}</div></div>
                           <div className="cuadro-borde col-xs-1  " id={"fila4-"+key}><div className="margenes-padding">{this.state.alumnosM[key].semestre}</div></div>
-                          <div className="cuadro-borde col-xs-2  " id={"fila5-"+key}><div className="margenes-padding">{this.state.alumnosM[key].programa}</div></div>
+                          <div className="cuadro-borde col-xs-2  " id={"fila5-"+key}><div className="margenes-padding">{this.state.alumnosM[key].presupuesto}</div></div>
                           <div className="cuadro-borde col-xs-2 ">
-                              <button onClick={e=>this.removerAlumno(key)} id={"boton_remove"+key} className="waves-effect waves-light btn-small btn-danger start mt-1 mb-1">Remover
+                              <button onClick={e=>this.removerAlumno(key)} id={"boton_remove"+key} className="remover waves-effect waves-light btn-small btn-danger start mt-1 mb-1">Remover
                               <i className="large material-icons left">remove_circle</i>
                               </button>
-                              <button onClick={e=>this.AgregarAlumno(this.state.alumnosM[key],key)} id={"boton_add"+key} className="waves-effect waves-light btn-small btn-success start mt-1 mb-1 dis-none">Incluir</button>
+                              <button onClick={e=>this.AgregarAlumno(this.state.alumnosM[key],key)} id={"boton_add"+key} className="aumentar waves-effect waves-light btn-small btn-success start mt-1 mb-1 dis-none">Incluir</button>
                               
                           </div> 
                         </div>
