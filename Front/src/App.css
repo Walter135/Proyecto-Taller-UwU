@@ -75,6 +75,13 @@ width: 130px !important; /*Aquí va el ancho de la Celda*/
   text-align: center;
 }
 
+/*NUEVOO*/
+.alaizquierda{
+  display: flex;
+  justify-content: left;
+  text-align: left;
+}
+
 .verdeagua{
   background-color: #215c75;
   text-align: center;

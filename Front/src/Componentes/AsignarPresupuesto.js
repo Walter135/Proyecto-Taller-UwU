@@ -290,7 +290,7 @@ class AsignarPresupuesto extends React.Component{
       document.getElementById('fila-' + e.toString()).classList.remove("sombreado-rojo");
       document.getElementById('fila2-' + e.toString()).classList.remove("sombreado-rojo");
       document.getElementById('fila3-' + e.toString()).classList.remove("sombreado-rojo");
-      document.getElementById('fila4-' + e.toString()).classList.remove("sombreado-rojo");
+      //document.getElementById('fila4-' + e.toString()).classList.remove("sombreado-rojo");
       document.getElementById('fila5-' + e.toString()).classList.remove("sombreado-rojo");
       console.log(this.state.arregloAlumnos)
     }
@@ -305,7 +305,7 @@ class AsignarPresupuesto extends React.Component{
         document.getElementById('fila-' + e.toString()).classList.add("sombreado-rojo");
         document.getElementById('fila2-' + e.toString()).classList.add("sombreado-rojo");
         document.getElementById('fila3-' + e.toString()).classList.add("sombreado-rojo");
-        document.getElementById('fila4-' + e.toString()).classList.add("sombreado-rojo");
+        //document.getElementById('fila4-' + e.toString()).classList.add("sombreado-rojo");
         document.getElementById('fila5-' + e.toString()).classList.add("sombreado-rojo");
 
         console.log(this.state.arregloAlumnos);
@@ -381,13 +381,14 @@ class AsignarPresupuesto extends React.Component{
                           <div className="cuadro-borde col-xs-1  " id={"fila-"+key}><div className="margenes-padding">{indice++}</div></div>
                           <div className="cuadro-borde col-xs-2  " id={"fila2-"+key}><div className="margenes-padding">{this.state.alumnosM[key].codigo}</div></div>
                           <div className="cuadro-borde col-xs-4  " id={"fila3-"+key}><div className="margenes-padding">{this.state.alumnosM[key].nombre}</div></div>
-                          <div className="cuadro-borde col-xs-1  " id={"fila4-"+key}><div className="margenes-padding">{this.state.alumnosM[key].semestre}</div></div>
-                          <div className="cuadro-borde col-xs-2  " id={"fila5-"+key}><div className="margenes-padding">{this.state.alumnosM[key].presupuesto}</div></div>
+                          <div className="cuadro-borde col-xs-3  " id={"fila5-"+key}><div className="margenes-padding">{this.state.alumnosM[key].presupuesto}</div></div>
                           <div className="cuadro-borde col-xs-2 ">
                               <button onClick={e=>this.removerAlumno(key)} id={"boton_remove"+key} className="remover waves-effect waves-light btn-small btn-danger start mt-1 mb-1">Remover
                               <i className="large material-icons left">remove_circle</i>
                               </button>
-                              <button onClick={e=>this.AgregarAlumno(this.state.alumnosM[key],key)} id={"boton_add"+key} className="aumentar waves-effect waves-light btn-small btn-success start mt-1 mb-1 dis-none">Incluir</button>
+                              <button onClick={e=>this.AgregarAlumno(this.state.alumnosM[key],key)} id={"boton_add"+key} className="aumentar waves-effect waves-light btn-small btn-success start mt-1 mb-1 dis-none">Incluir
+                              <i className="large material-icons left">add_circle</i>
+                              </button>
                               
                           </div> 
                         </div>
@@ -416,7 +417,7 @@ class AsignarPresupuesto extends React.Component{
 
                 <div className="row col-xs-12">
                   <label className="col-xs-2">Tipo de Programa</label>
-                  <Select className="col-xs-3" 
+                  <Select className="col-xs-2" 
                       placeholder="Seleccione un tipo"
                       name="selectipo"
                       id="selectipo"
@@ -426,7 +427,7 @@ class AsignarPresupuesto extends React.Component{
                   />
 
                   <label className="col-xs-1">Programa</label>
-                  <Select className="col-xs-5" 
+                  <Select className="col-xs-6" 
                       placeholder="Seleccione una opcion"
                       name="selecprograma"
                       id="selecprograma"
@@ -515,8 +516,7 @@ class AsignarPresupuesto extends React.Component{
                         <div className="verdeagua cuadro-borde col-xs-1 "><b>N°</b></div>
                         <div className="verdeagua cuadro-borde col-xs-2 "><b>CODIGO ALUMNO</b></div>
                         <div className="verdeagua cuadro-borde col-xs-4 "><b>NOMBRE DEL ALUMNO</b></div>
-                        <div className="verdeagua cuadro-borde col-xs-1 "><b>PERIODO</b></div>
-                        <div className="verdeagua cuadro-borde col-xs-2 "><b>PRESUPUESTO ACTUAL</b></div>
+                        <div className="verdeagua cuadro-borde col-xs-3 "><b>PRESUPUESTO ACTUAL</b></div>
                         <div className="verdeagua cuadro-borde col-xs-2 "><b>PARA ASIGNACION</b></div>
                       </div> 
                     </div>

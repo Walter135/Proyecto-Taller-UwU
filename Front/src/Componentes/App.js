@@ -811,7 +811,7 @@ this.setState({
         TipopresupuestoInput:{value: estado.value,label: estado.label}
       });
       
-      this.actualizarProgramaPresupuesto(false);
+      //this.actualizarProgramaPresupuesto(false);
         setTimeout(() => {
         this.componentWillMount();
         this.Filtrar();
@@ -992,11 +992,12 @@ this.setState({
           <div>
             
             <div id="mostrar-ocultar">
-              <div className="mt-3 ml-5 alcentro row">
-                <div className="col-xs-1"></div>
+              <div className="mt-3  row">
+                <div className="ml-5 alcentro col-xs-2"><b>Presupuesto Actual del Alumno:</b> </div>
+                <div className="alaizquierda col-xs-1">{this.state.idPrograma}</div>
                 <div className="col-xs-1"><b>Presupuestos</b></div>
-                <div className="col-xs-10 ">
-                    <Select className=" mb-3 col-xs-9" 
+                <div className="col-xs-7 ">
+                    <Select className=" mb-3 col-xs-10" 
                         name="TipoProgramaInput"
                         id="TipoProgramaInput"
                         placeholder="Seleccione un presupuesto"
