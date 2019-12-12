@@ -578,17 +578,37 @@ this.setState({
           if(comprobacion ==  1 ){
               //console.log("toffe");
               this.reporte_credito(comprobacion,nombrenuevo,auxPagos);
+              setTimeout(() => {
+                this.setState({
+                  costosP2: this.state.costosP
+                })
+              }, 500);
           }
           else if(comprobacion == 2) {
               //console.log("oso");
               this.reporte_ciclo(nombrenuevo,auxPagos,2);
+              setTimeout(() => {
+                this.setState({
+                  costosP2: this.state.costosP
+                })
+              }, 500);
           }
           else if(comprobacion == 3){
                if(comprobacion.tipo == "por ciclo"){
                    this.reporte_ciclo(nombrenuevo,auxPagos,0);
+                   setTimeout(() => {
+                    this.setState({
+                      costosP2: this.state.costosP
+                    })
+                  }, 500);
                }
                else{
                    this.reporte_credito(comprobacion,nombrenuevo,auxPagos);
+                   setTimeout(() => {
+                    this.setState({
+                      costosP2: this.state.costosP
+                    })
+                  }, 500);
                }
           }
       })
