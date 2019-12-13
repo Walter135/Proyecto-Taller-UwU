@@ -549,6 +549,7 @@ this.setState({
          this.setState({
            idPrograma : pagos[0].idPrograma
          })
+
          console.log("UN IDREC");
         // console.log(pagos[1].idRec);
         var auxPagos = pagos;
@@ -582,6 +583,16 @@ this.setState({
                 this.setState({
                   costosP2: this.state.costosP
                 })
+                if(this.state.costosP.creditos){
+                  this.setState({
+                    idPrograma : pagos[0].idPrograma
+                  })
+                }
+               else {
+                this.setState({
+                  idPrograma : 0
+                })
+               }
               }, 500);
           }
           else if(comprobacion == 2) {
@@ -591,6 +602,16 @@ this.setState({
                 this.setState({
                   costosP2: this.state.costosP
                 })
+                if(this.state.costosP.creditos){
+                  this.setState({
+                    idPrograma : pagos[0].idPrograma
+                  })
+                }
+               else {
+                this.setState({
+                  idPrograma : 0
+                })
+               }
               }, 500);
           }
           else if(comprobacion == 3){
@@ -600,6 +621,16 @@ this.setState({
                     this.setState({
                       costosP2: this.state.costosP
                     })
+                    if(this.state.costosP.creditos){
+                      this.setState({
+                        idPrograma : pagos[0].idPrograma
+                      })
+                    }
+                   else {
+                    this.setState({
+                      idPrograma : 0
+                    })
+                   }
                   }, 500);
                }
                else{
@@ -608,6 +639,16 @@ this.setState({
                     this.setState({
                       costosP2: this.state.costosP
                     })
+                    if(this.state.costosP.creditos){
+                      this.setState({
+                        idPrograma : pagos[0].idPrograma
+                      })
+                    }
+                   else {
+                    this.setState({
+                      idPrograma : 0
+                    })
+                   }
                   }, 500);
                }
           }
