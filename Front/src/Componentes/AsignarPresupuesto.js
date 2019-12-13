@@ -38,6 +38,7 @@ class AsignarPresupuesto extends React.Component{
             arregloAlumnos : [],
             programaSeleccionado : 0,
             alumnosM:[],
+            cambiar: true,
             arregloProgramaOriginal : [],
             detallePresupuesto : { upg: 0,epg:0,derecho:0,total:0,valor1:0,valor2:0}
         }
@@ -154,12 +155,14 @@ class AsignarPresupuesto extends React.Component{
 
     mostrarAlumnosP=()=>{
         document.getElementById('presupuesto').style.display='none';
-        document.getElementById('alumnosP').style.display = 'block';  
+        document.getElementById('alumnosP').style.display = 'block';
+        document.getElementById('alumnosP2').style.display = 'block';
     }
 
     mostrarPresupuesto=()=>{    
         document.getElementById('presupuesto').style.display='block';
         document.getElementById('alumnosP').style.display = 'none';  
+        document.getElementById('alumnosP2').style.display = 'none';
     }
 
     obtenerPresupuesto=()=>{
@@ -223,12 +226,8 @@ class AsignarPresupuesto extends React.Component{
           alumnosM : resultado
         })
 
-        
-      var arreglo = [...this.state.alumnosM]
-      this.setState({
-        arregloAlumnos : arreglo
-      })
-        console.log(resultado)
+        console.log(this.state.arregloAlumnos)
+      
       })
 
       switch(this.state.programaSeleccionado){
@@ -257,7 +256,7 @@ class AsignarPresupuesto extends React.Component{
                   });
                   break;
         case 7 : this.setState({
-                    detallePresupuesto : { upg: 1816, epg:208, derecho:16488, total:16488, valor1:212, valor2:229}
+                    detallePresupuesto : { upg: 1816, epg:208, derecho:16488, total:18512, valor1:212, valor2:229}
                   });
                   break;
         case 8 : this.setState({
@@ -266,12 +265,12 @@ class AsignarPresupuesto extends React.Component{
                   break;        
       }
 
-      var lista= document.getElementsByClassName('cuadro-borde');
+      var lista= document.getElementsByClassName('checkbox1');
       var remover = document.getElementsByClassName('remover');
       var aumentar = document.getElementsByClassName('aumentar');
 
       for(var i=0;i<lista.length;i++)
-        lista[i].classList.remove("sombreado-rojo");
+        lista[i].checked=false;
 
       for(var i=0;i<remover.length;i++)
         remover[i].classList.remove("dis-none");
@@ -279,20 +278,21 @@ class AsignarPresupuesto extends React.Component{
       for(var i=0;i<aumentar.length;i++)
         aumentar[i].classList.add("dis-none");
 
+       
+
     }
 
     AgregarAlumno=(arreglo,e)=>{
+      console.log(this.state.alumnosM[4])
       this.state.arregloAlumnos.splice(e,1,arreglo);
 
-      document.getElementById('boton_remove' + e.toString()).classList.remove("dis-none");
-      document.getElementById('boton_add' + e.toString()).classList.add("dis-none");
-      
-      document.getElementById('fila-' + e.toString()).classList.remove("sombreado-rojo");
-      document.getElementById('fila2-' + e.toString()).classList.remove("sombreado-rojo");
-      document.getElementById('fila3-' + e.toString()).classList.remove("sombreado-rojo");
-      //document.getElementById('fila4-' + e.toString()).classList.remove("sombreado-rojo");
-      document.getElementById('fila5-' + e.toString()).classList.remove("sombreado-rojo");
-      console.log(this.state.arregloAlumnos)
+      console.log(document.getElementById("filaLista-"+e).checked)
+      if(document.getElementById("filaLista-"+e).checked)
+        this.state.arregloAlumnos.splice(e,1,arreglo);
+      else
+        this.state.arregloAlumnos.splice(e,1,{})
+
+        console.log(this.state.arregloAlumnos);
     }
 
 
@@ -312,6 +312,7 @@ class AsignarPresupuesto extends React.Component{
       }
 
     AsignarPres=()=>{
+      console.log(this.state.arregloAlumnos);
       var arreglo = [...this.state.arregloAlumnos]
       this.setState({
         arregloProgramaOriginal : arreglo
@@ -338,16 +339,51 @@ class AsignarPresupuesto extends React.Component{
           ) : 
           null
       ))
+      
+      this.setState({
+        arregloAlumnos : []
+      })
+      
       setTimeout(() => {
         this.seleccionar();        
       }, 3500);
       }
 
+      seleccionar1=()=>{
+        //console.log("gg agg");
+        var checks=document.getElementsByClassName("checkbox1");
+
+        if(this.state.cambiar){
+          for (let i=0;i<checks.length;i++) {
+            let a
+            a=this.state.alumnosM[i];
+            console.log(a)
+            checks[i].checked=true;
+            this.state.arregloAlumnos.splice(i,1,this.state.alumnosM[i]);
+          }
+
+        }else{
+          for (let i=0;i<checks.length;i++) {
+            let a
+            a=this.state.alumnosM[i];
+            console.log(a)
+            checks[i].checked=false;
+            this.state.arregloAlumnos.splice(i,1,{});
+          }
+        }
+        let cambiar1= this.state.cambiar;
+            this.setState({
+              cambiar:!cambiar1
+            })
+      console.log(this.state.arregloAlumnos)
+      }
+
+
     DesasignarPres=()=>{
-      Object.keys(this.state.arregloProgramaOriginal).map(key=>(
+      Object.keys(this.state.arregloAlumnos).map(key=>(
         // console.log(this.state.arregloAlumnos[key].codigo)
-          (this.state.arregloProgramaOriginal[key].codigo) ? (
-            fetch(CONFIG+'recaudaciones/alumno/concepto/actualizarIdProgramaPrespuesto/'+this.state.arregloProgramaOriginal[key].presupuesto+'/'+this.state.arregloProgramaOriginal[key].codigo,
+          (this.state.arregloAlumnos[key].codigo) ? (
+            fetch(CONFIG+'recaudaciones/alumno/concepto/actualizarIdProgramaPrespuesto/'+0+'/'+this.state.arregloAlumnos[key].codigo,
             {
               headers: {
                 'Content-Type': 'application/json'
@@ -366,6 +402,9 @@ class AsignarPresupuesto extends React.Component{
           ) : 
           null
       ))
+      this.setState({
+        arregloAlumnos : []
+      })
       setTimeout(() => {
         this.seleccionar();        
       }, 1000);
@@ -383,12 +422,21 @@ class AsignarPresupuesto extends React.Component{
                           <div className="cuadro-borde col-xs-4  " id={"fila3-"+key}><div className="margenes-padding">{this.state.alumnosM[key].nombre}</div></div>
                           <div className="cuadro-borde col-xs-3  " id={"fila5-"+key}><div className="margenes-padding">{this.state.alumnosM[key].presupuesto}</div></div>
                           <div className="cuadro-borde col-xs-2 ">
-                              <button onClick={e=>this.removerAlumno(key)} id={"boton_remove"+key} className="remover waves-effect waves-light btn-small btn-danger start mt-1 mb-1">Remover
+
+                          <form action="#">
+                            <label className="row center-xs color_white">
+                              <input className="checkbox1" onClick={e=>this.AgregarAlumno(this.state.alumnosM[key],key)} id={"filaLista-"+key} type="checkbox"></input>
+                              <span></span>
+    
+                            </label>
+                          </form>
+                           { /*
+                              <button onClick={e=>this.removerAlumno(key)} id={"botonremove"+key} className="remover waves-effect waves-light btn-small btn-danger start mt-1 mb-1">Remover
                               <i className="large material-icons left">remove_circle</i>
                               </button>
                               <button onClick={e=>this.AgregarAlumno(this.state.alumnosM[key],key)} id={"boton_add"+key} className="aumentar waves-effect waves-light btn-small btn-success start mt-1 mb-1 dis-none">Incluir
                               <i className="large material-icons left">add_circle</i>
-                              </button>
+                           </button>*/}
                               
                           </div> 
                         </div>
@@ -484,6 +532,9 @@ class AsignarPresupuesto extends React.Component{
               <div align="center">
                 <button onClick={this.mostrarPresupuesto} className=" waves-light btn-small"> Detalle Presupuesto</button>
                 <button onClick={this.mostrarAlumnosP} className="waves-light btn-small  ml-3">Alumnos </button>
+                <button onClick={this.seleccionar1} id="alumnosP2" className=" waves-effect waves-light btn-small newbotonSeleccionar start mt-1 ml-4">
+            Seleccionar todo<i className="large material-icons left">check</i>
+            </button>
               </div>
                 
 

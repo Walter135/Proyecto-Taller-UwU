@@ -914,7 +914,7 @@ this.setState({
                 });
                 break;
       case 7 : this.setState({
-                  detallePresupuesto : { upg: 1816, epg:208, derecho:16488, total:16488, valor1:212, valor2:229}
+                  detallePresupuesto : { upg: 1816, epg:208, derecho:16488, total:18512, valor1:212, valor2:229}
                 });
                 break;
       case 8 : this.setState({
@@ -1095,57 +1095,15 @@ this.setState({
                     </div>
                   </div>)}
           </div>
-          <div>
-            
-            <div >
-              <div className="mt-3 row">
-                <div className="col-xs-1 alcentro ml-5"><b>Presupuestos</b></div>
-                <div className="col-xs-7 ">
-                    <Select className=" mb-3 col-xs-10" 
-                        name="TipoProgramaInput"
-                        id="TipoProgramaInput"
-                        placeholder="Seleccione un presupuesto"
-                        value={this.state.TipopresupuestoInput}
-                        onChange={this.handleChangeSelectTipoPrograma}
-                        options={this.state.optionsTipoPrograma}
-                      />
-
-                </div>  
-              </div>
-              <div className="alcentro ml-5">
-                <div className="col-xs-12 row">
-                  <div className="col-xs-1"></div>
-                  <div className="verdeagua cuadro-borde col-xs-2"><b>MATRICULA UPG</b></div>
-                  <div className="verdeagua cuadro-borde col-xs-2"><b>MATRICULA EPG</b></div>
-                  <div className="verdeagua cuadro-borde col-xs-2"><b>DERECHO DE ENSEÑANZA</b></div>
-                  <div className="verdeagua cuadro-borde col-xs-1"><b>TOTAL</b></div>
-                  <div className="verdeagua cuadro-borde col-xs-2"><b>VALOR POR CREDITO</b></div>
-                </div> 
-              </div>
-              <div className="alcentro ml-5">
-                <div className="col-xs-12 row">
-                  <div className="verdeagua cuadro-borde col-xs-1"><b>COSTO REAL</b></div>
-                  <div className="cuadro-borde col-xs-2">S/ {this.state.detallePresupuesto.upg}</div>
-                  <div className="cuadro-borde col-xs-2">S/ {this.state.detallePresupuesto.epg}</div>
-                  <div className="cuadro-borde col-xs-2">S/ {this.state.detallePresupuesto.total}</div>
-                  <div className="cuadro-borde col-xs-1">S/ {this.state.detallePresupuesto._Total}</div>
-                  <div className="cuadro-borde col-xs-2">{this.state.detallePresupuesto.valor1} x {this.state.detallePresupuesto.valor2}</div>
-                  
-                </div>
-                
-              </div>
-
-                <br></br>
-                <div >
+          <div id="mostrar-ocultar">
+          <div >
               <div className="mt-3  row">
                 <div className="ml-5 alcentro col-xs-2"><b>Presupuesto Actual del Alumno:</b> </div>
                 <div className="alaizquierda col-xs-1">{this.state.idProgramaMostrar}</div>
-                </div>
-                </div>
-                <br></br>
-                <br></br>
-
-
+              </div>
+          </div>
+            <div >
+              <br></br>
               <div className="alcentro ml-5">
                 <div className="col-xs-12 row">
                   <div className="col-xs-1"></div>
@@ -1169,7 +1127,6 @@ this.setState({
                   </div>
                 </div>
                 
-                
               </div>
               <div  className="alcentro ml-5">
                 <div id="costo-final" className="col-xs-12 row">
@@ -1181,6 +1138,49 @@ this.setState({
                   <div className="cuadro-borde col-xs-2">{this.state.costosP2.creditos} x {this.state.costosP2.costo_credito_d}</div>
                 </div>
               </div>
+
+                <br></br>
+                <div className="mt-3 row">
+                <div className="col-xs-1 alcentro ml-5"><b>Presupuestos</b></div>
+                <div className="col-xs-7 ">
+                    <Select className=" mb-3 col-xs-10" 
+                        name="TipoProgramaInput"
+                        id="TipoProgramaInput"
+                        placeholder="Seleccione un presupuesto"
+                        value={this.state.TipopresupuestoInput}
+                        onChange={this.handleChangeSelectTipoPrograma}
+                        options={this.state.optionsTipoPrograma}
+                      />
+
+                </div>  
+              </div>
+                <br></br>
+
+
+              <div className="alcentro ml-5">
+                <div className="col-xs-12 row">
+                  <div className="col-xs-1"></div>
+                  <div className="verdeagua cuadro-borde col-xs-2"><b>MATRICULA UPG</b></div>
+                  <div className="verdeagua cuadro-borde col-xs-2"><b>MATRICULA EPG</b></div>
+                  <div className="verdeagua cuadro-borde col-xs-2"><b>DERECHO DE ENSEÑANZA</b></div>
+                  <div className="verdeagua cuadro-borde col-xs-1"><b>TOTAL</b></div>
+                  <div className="verdeagua cuadro-borde col-xs-2"><b>VALOR POR CREDITO</b></div>
+                </div> 
+              </div>
+              <div className="alcentro ml-5">
+                <div className="col-xs-12 row">
+                  <div className="verdeagua cuadro-borde col-xs-1"><b>COSTO REAL</b></div>
+                  <div className="cuadro-borde col-xs-2">S/ {this.state.detallePresupuesto.upg}</div>
+                  <div className="cuadro-borde col-xs-2">S/ {this.state.detallePresupuesto.epg}</div>
+                  <div className="cuadro-borde col-xs-2">S/ {this.state.detallePresupuesto.derecho}</div>
+                  <div className="cuadro-borde col-xs-1">S/ {this.state.detallePresupuesto.total}</div>
+                  <div className="cuadro-borde col-xs-2">{this.state.detallePresupuesto.valor1} x {this.state.detallePresupuesto.valor2}</div>
+                  
+                </div>
+                
+                
+              </div>
+              
 
               <div className=" mt-2 mb-3 centrar">
                 <button  onClick={this.actualizarProgramaPresupuesto} className="waves-effect waves-light btn-small ml-3 " type="submit" >Asignar Presupuesto</button>
@@ -1308,7 +1308,7 @@ this.setState({
 Regresar2=(e)=>{
   e.preventDefault()
   console.log("Estoy guardando el presupuesto "+this.state.idProgramaOriginal)
-  fetch(CONFIG+'recaudaciones/alumno/concepto/actualizarIdProgramaPrespuesto/'+this.state.idProgramaOriginal+'/'+this.state.alumno.apeNom,
+  fetch(CONFIG+'recaudaciones/alumno/concepto/actualizarIdProgramaPrespuesto/'+0+'/'+this.state.alumno.apeNom,
     {
       headers: {
         'Content-Type': 'application/json'
