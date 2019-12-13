@@ -79,6 +79,7 @@ class App extends React.Component {
       mostrar_benef:true,//nuevo
       mostrar_costo_final:true,//nuevo
       valor: true,
+      detallePresupuesto:{},
       estadoAlumnoInput:{value:"-1",label:"Seleccione un nuevo estado"},
       TipopresupuestoInput:{value:"-1",label:"Seleccione un presupuesto"},
       optionsEstadoAlumno:[{value:"casado",label:"Casado"},
@@ -585,12 +586,12 @@ this.setState({
                 })
                 if(this.state.costosP.creditos){
                   this.setState({
-                    idPrograma : pagos[0].idPrograma
+                    idProgramaMostrar : pagos[0].idPrograma
                   })
                 }
                else {
                 this.setState({
-                  idPrograma : 0
+                  idProgramaMostrar : 0
                 })
                }
               }, 500);
@@ -604,12 +605,12 @@ this.setState({
                 })
                 if(this.state.costosP.creditos){
                   this.setState({
-                    idPrograma : pagos[0].idPrograma
+                    idProgramaMostrar : pagos[0].idPrograma
                   })
                 }
                else {
                 this.setState({
-                  idPrograma : 0
+                  idProgramaMostrar : 0
                 })
                }
               }, 500);
@@ -623,12 +624,12 @@ this.setState({
                     })
                     if(this.state.costosP.creditos){
                       this.setState({
-                        idPrograma : pagos[0].idPrograma
+                        idProgramaMostrar : pagos[0].idPrograma
                       })
                     }
                    else {
                     this.setState({
-                      idPrograma : 0
+                      idProgramaMostrar : 0
                     })
                    }
                   }, 500);
@@ -641,12 +642,12 @@ this.setState({
                     })
                     if(this.state.costosP.creditos){
                       this.setState({
-                        idPrograma : pagos[0].idPrograma
+                        idProgramaMostrar : pagos[0].idPrograma
                       })
                     }
                    else {
                     this.setState({
-                      idPrograma : 0
+                      idProgramaMostrar : 0
                     })
                    }
                   }, 500);
@@ -867,16 +868,40 @@ this.setState({
 
   handleChangeSelectTipoPrograma = (estado) => {
     console.log(estado)
-    //if(estado!== null){
-      this.setState({
-        TipopresupuestoInput:{value: estado.value,label: estado.label}
-      });
-      
-      //this.actualizarProgramaPresupuesto(false);
-        setTimeout(() => {
-        this.componentWillMount();
-        this.Filtrar();
-      }, 1000);
+    switch(estado.value){
+      case 1 : this.setState({
+                  detallePresupuesto : { upg: 0, epg:0, derecho:5808, total:5808, valor1:24, valor2:242}
+                });
+                break;
+      case 2 : this.setState({
+                  detallePresupuesto : { upg: 0, epg:0, derecho:5808, total:5808, valor1:24, valor2:242}
+                });
+                break;
+      case 3 : this.setState({
+                  detallePresupuesto : { upg: 0, epg:0, derecho:5808, total:5808, valor1:24, valor2:242}
+                });
+                break;
+      case 4 : this.setState({
+                  detallePresupuesto : { upg: 1816, epg:208, derecho:16488, total:16488, valor1:72, valor2:229}
+                });
+                break;
+      case 5 : this.setState({
+                  detallePresupuesto : { upg: 1816, epg:208, derecho:16488, total:16488, valor1:72, valor2:229}
+                });
+                break;
+      case 6 : this.setState({
+                  detallePresupuesto : { upg: 1816, epg:208, derecho:16488, total:16488, valor1:72, valor2:229}
+                });
+                break;
+      case 7 : this.setState({
+                  detallePresupuesto : { upg: 1816, epg:208, derecho:16488, total:16488, valor1:212, valor2:229}
+                });
+                break;
+      case 8 : this.setState({
+                  detallePresupuesto : { upg: 3000, epg:312, derecho:29472, total:32784, valor1:96, valor2:307}
+                });
+                break;        
+    }
   
   }
 
@@ -1052,11 +1077,9 @@ this.setState({
           </div>
           <div>
             
-            <div id="mostrar-ocultar">
-              <div className="mt-3  row">
-                <div className="ml-5 alcentro col-xs-2"><b>Presupuesto Actual del Alumno:</b> </div>
-                <div className="alaizquierda col-xs-1">{this.state.idPrograma}</div>
-                <div className="col-xs-1"><b>Presupuestos</b></div>
+            <div >
+              <div className="mt-3 row">
+                <div className="col-xs-1 alcentro ml-5"><b>Presupuestos</b></div>
                 <div className="col-xs-7 ">
                     <Select className=" mb-3 col-xs-10" 
                         name="TipoProgramaInput"
@@ -1082,6 +1105,40 @@ this.setState({
               <div className="alcentro ml-5">
                 <div className="col-xs-12 row">
                   <div className="verdeagua cuadro-borde col-xs-1"><b>COSTO REAL</b></div>
+                  <div className="cuadro-borde col-xs-2">S/ {this.state.detallePresupuesto.upg}</div>
+                  <div className="cuadro-borde col-xs-2">S/ {this.state.detallePresupuesto.epg}</div>
+                  <div className="cuadro-borde col-xs-2">S/ {this.state.detallePresupuesto.total}</div>
+                  <div className="cuadro-borde col-xs-1">S/ {this.state.detallePresupuesto._Total}</div>
+                  <div className="cuadro-borde col-xs-2">{this.state.detallePresupuesto.valor1} x {this.state.detallePresupuesto.valor2}</div>
+                  
+                </div>
+                
+              </div>
+
+                <br></br>
+                <div >
+              <div className="mt-3  row">
+                <div className="ml-5 alcentro col-xs-2"><b>Presupuesto Actual del Alumno:</b> </div>
+                <div className="alaizquierda col-xs-1">{this.state.idProgramaMostrar}</div>
+                </div>
+                </div>
+                <br></br>
+                <br></br>
+
+
+              <div className="alcentro ml-5">
+                <div className="col-xs-12 row">
+                  <div className="col-xs-1"></div>
+                  <div className="verdeagua cuadro-borde col-xs-2"><b>MATRICULA UPG</b></div>
+                  <div className="verdeagua cuadro-borde col-xs-2"><b>MATRICULA EPG</b></div>
+                  <div className="verdeagua cuadro-borde col-xs-2"><b>DERECHO DE ENSEÑANZA</b></div>
+                  <div className="verdeagua cuadro-borde col-xs-1"><b>TOTAL</b></div>
+                  <div className="verdeagua cuadro-borde col-xs-2"><b>VALOR POR CREDITO</b></div>
+                </div> 
+              </div>
+              <div className="alcentro ml-5">
+                <div className="col-xs-12 row">
+                  <div className="verdeagua cuadro-borde col-xs-1"><b>COSTO REAL</b></div>
                   <div className="cuadro-borde col-xs-2">S/ {this.state.costosP2.upg}</div>
                   <div className="cuadro-borde col-xs-2">S/ {this.state.costosP2.epg}</div>
                   <div className="cuadro-borde col-xs-2">S/ {this.state.costosP2.total}</div>
@@ -1091,6 +1148,7 @@ this.setState({
                     <button onClick={this.mostrarCostoFinal} className="waves-effect waves-light btn-small ml-3 " type="submit">Ver con Beneficios</button>
                   </div>
                 </div>
+                
                 
               </div>
               <div  className="alcentro ml-5">
