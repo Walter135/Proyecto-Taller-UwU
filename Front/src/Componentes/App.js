@@ -93,7 +93,9 @@ class App extends React.Component {
     optionsProgramas:[],
     optionsTipoPrograma:[],
     showModalConfiguracion:false,
-    beneficios:[]
+    beneficios:[],
+    idProgramaOriginal:0,
+    suma: true
     }
     this.clase='';
     this.alumno = '';
@@ -577,6 +579,21 @@ this.setState({
           return response.json()
       }).then((comprobacion)=>{//costos
           console.log(comprobacion);
+          if(this.state.suma){
+            if(this.state.costosP.creditos){
+              this.setState({
+                idProgramaOriginal : pagos[0].idPrograma
+              })
+            }
+           else {
+            this.setState({
+              idProgramaOriginal : 0
+            })
+           }
+           this.setState({
+             suma: false
+           })
+          }
           if(comprobacion ==  1 ){
               //console.log("toffe");
               this.reporte_credito(comprobacion,nombrenuevo,auxPagos);
@@ -868,6 +885,9 @@ this.setState({
 
   handleChangeSelectTipoPrograma = (estado) => {
     console.log(estado)
+    this.setState({
+      TipopresupuestoInput:{value: estado.value,label: estado.label}
+    });
     switch(estado.value){
       case 1 : this.setState({
                   detallePresupuesto : { upg: 0, epg:0, derecho:5808, total:5808, valor1:24, valor2:242}
@@ -1287,8 +1307,28 @@ this.setState({
 
 Regresar2=(e)=>{
   e.preventDefault()
-  console.log("Estoy guardando el presupuesto "+this.state.presupuestoActual)
-  swal("Presupuesto Desasignado Correctamente","","info")
+  console.log("Estoy guardando el presupuesto "+this.state.idProgramaOriginal)
+  fetch(CONFIG+'recaudaciones/alumno/concepto/actualizarIdProgramaPrespuesto/'+this.state.idProgramaOriginal+'/'+this.state.alumno.apeNom,
+    {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: "PATCH",
+    }
+  )
+  .then((defuncion) => {
+      swal("Presupuesto Desasignado Correctamente","","")  
+      this.componentWillMount()
+  })
+  .catch(error => {
+    // si hay algún error lo mostramos en consola
+    swal("Oops, Algo salió mal!!", "", "error")
+    console.error(error)
+  })
+
+  setTimeout(() => {
+    this.componentWillMount()
+  }, 1000);
 }
 
 Filtrar=(e)=>{
